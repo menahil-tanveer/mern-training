@@ -1,0 +1,137 @@
+<!-- 
+    Author: Menahil
+    Created at: 10-02-2022
+    Purpose: Introduction to javascript Events, Cookies, Page Redirect, auto refresh, Dialog Box, void Keyword, Page Printing, Objects  (revision)
+ -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- css -->
+    <link rel="stylesheet" href="styles.css">
+    <title>Day 02</title>
+</head>
+<!-- 
+    Page is auto reloaded after every 9 seconds &&
+    Each time the page reloads, it checks cookie status 
+  -->
+<body onload="checkCookies();JavaScript:AutoRefresh(9000);">
+    <!-- EVENTS -->
+    <div class="background-color w-100vw"> 
+        <h1>EVENTS</h1>
+        <!-- onclick exp -->
+        <div>
+            <div>@click event & window alert example</div>
+            <br>
+            <button class="primary-button" onclick="showAlert()">Say Hi</button>
+        </div>
+        <hr>
+        <!-- on mouseover exp -->
+        <div>
+            <div>@mouseover example</div>
+            <br>
+            <button class="primary-button" onmouseover="showTooltip()" onmouseout="hideTooltip()" >Tooltip!</button>
+            <div id="tooltip"></div>
+        </div>
+        <hr>
+        <!-- page redirection -->
+        <div>
+            <div>Redirect to w3schools</div>
+            <br>
+            <button class="primary-button" onclick="redirect()">Open w3schools</button>
+        </div>
+        <!-- confirmation dialog -->
+        <div>
+            <p>Click the button to see line-breaks in a confirm box.</p>
+            <button class="primary-button" onclick="myFunction()">Show Confirmation</button>
+        </div>
+        <!-- prompt dialog -->
+        <div>
+            <p>Click for prompt dialog</p>
+            <button class="primary-button" onclick="openPromptDialog()">Show prompt dialog</button>
+        </div>  
+        <!-- print page -->      
+        <div>
+            <p>Click here to print this page</p>
+            <button class="primary-button" onclick="window.print()">Print</button>
+        </div>        
+    </div>
+    <!-- OBJECTS -->
+    <div>
+        <h1>Objects</h1>
+       <!-- Object Methods -->
+        <div>
+            <div>Person Object</div>
+            <div id="person-object"></div>
+            <br>
+            <button class="primary-button" onclick="showFullName()" >Show full name using object funtion</button>
+            <div id="person-full-name"></div>
+        </div>
+        <hr>        
+    </div>
+    
+</body>
+<script>
+let tooltip = document.getElementById("tooltip");
+// Create an object:
+const person = {
+  firstName: "John",
+  lastName: "Doe",
+  id: 5566,
+  fullName : function() {
+    return this.firstName + " " + this.lastName;
+  }
+};
+let txt = "";
+for (let x in person) {
+txt += person[x] + " ";
+};
+// Display data from the object:
+document.getElementById("person-object").innerHTML = `{
+${txt} 
+}`;
+function showAlert(){
+ alert("Hi there!")
+}
+function showTooltip(){
+    tooltip.innerHTML="tooltip"
+    tooltip.classList.add("tooltip")
+}
+function hideTooltip(){   
+    tooltip.innerHTML=""
+    tooltip.classList.remove("tooltip")
+}
+function checkCookies() {
+  var text = "";
+  if (navigator.cookieEnabled == true) {
+    text = "Cookies are enabled.";
+  } else {
+    text = "Cookies are not enabled.";
+  }
+  console.log(text);
+}
+function AutoRefresh( t ) {
+    setTimeout("location.reload(true);", t);
+ }
+function redirect(){
+    window.location.href = "http://www.w3schools.com";
+}
+function myFunction() {
+  let text = "Press a button!\nEither OK or Cancel.";
+  if (confirm(text) == true) {
+    text = "You pressed OK!";
+  } else {
+    text = "You canceled!";
+  }
+  document.getElementById("demo").innerHTML = text;
+}
+function openPromptDialog() {
+  let person = prompt("Please enter your name", "John Doe");
+}
+function showFullName(){
+    document.getElementById("person-full-name").innerHTML = person.fullName();
+}
+</script>
+</html>
