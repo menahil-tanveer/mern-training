@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>String Methods</h1>
+    <p>None of the methods mutate the string but return a new string.
+        <br>
+        Strings are immutable entities
+    </p>
+    <button type="button" onclick="stringLength()">Get String Length</button>
+    <button type="button" onclick="characterAt()">Char at 0</button>
+    <button type="button" onclick="charCodeAt()">Char code at 0</button>
+    <button type="button" onclick="indexOf()">Index Of</button>
+    <button type="button" onclick="concat()">Concat</button>
+    <button type="button" onclick="lastIndexOf()">Last Index Of</button>
+    <button type="button" onclick="localeCompare()">Locale Compare</button>
+    <button type="button" onclick="matchString()">Match</button>
+    <button type="button" onclick="replace()">Replace</button>
+    <button type="button" onclick="search()">Search</button>
+    <button type="button" onclick="slice()">Slice</button>
+    <button type="button" onclick="split()">Split</button>
+    <button type="button" onclick="substr()">Substr</button>
+    <button type="button" onclick="toLowerCase()">To Lower Case</button>
+    <button type="button" onclick="toUpperCase()">To Upper Case</button>  
+    <div id="demo"></div> 
+    <div id="description"></div> 
+    <h1>Array Methods</h1>
+    <button type="button" onclick="executeForEach()">For each</button>
+    <button type="button" onclick="sliceArray()">Slice</button>
+    <button type="button" onclick="filterArray()">Filter over 18</button>
+    <button type="button" onclick="mapArray()">Map</button>
+    <button type="button" onclick="reduceArray()">Reduce</button>
+    <button type="button" onclick="findElement()">Find</button>
+    <h1>Date Methods</h1>
+    <button type="button" onclick="getYear()">Full Year</button>
+    <button type="button" onclick="getMonth()">Month</button>
+    <button type="button" onclick="getDateUTCTimezone()">to UTC String</button>
+    <button type="button" onclick="getDateString()">to Date String</button>
+    <h1>Math Methods</h1>
+    <p>Unlike other objects, the Math object has no constructor.
+        The Math object is static.
+        All methods and properties can be used without creating a Math object first.
+    </p>
+
+
+
+</body>
+    <script>
+        let description
+        function stringLength(){
+            let text = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            description="To find the length of a string, use the built-in length property:"
+            document.getElementById("demo").innerHTML = text.length;
+            document.getElementById("description").innerHTML = description;
+        }
+        function characterAt(){
+            let text = "HELLO WORLD";
+            description="Returns the character at a specified index (position)"
+            let letter = text.charAt(0);
+            document.getElementById("demo").innerHTML = letter;
+            document.getElementById("description").innerHTML = description;
+        }
+        function charCodeAt(){
+            let text = "HELLO WORLD";
+            let code = text.charCodeAt(0);
+            description="Returns the Unicode of the character at a specified index"
+            document.getElementById("demo").innerHTML = code;
+            document.getElementById("description").innerHTML = description;
+        }
+        function indexOf(){
+            let text = "Hello world, welcome to the universe.";
+            let result = text.indexOf("welcome");
+            description="Returns the index (position) of the first occurrence of a value in a string"
+            document.getElementById("demo").innerHTML = result;
+            document.getElementById("description").innerHTML = description;
+        }
+        function concat(){
+            let text1 = "sea";
+            let text2 = "food";
+            description="Returns two or more joined strings"
+            let result = text1.concat(text2);
+            document.getElementById("demo").innerHTML = result;
+            document.getElementById("description").innerHTML = description;
+        }
+        function lastIndexOf(){
+            let text = "Hello planet earth, you are a great planet.";
+            let result = text.lastIndexOf("planet");
+            description="Returns the index (position) of the last occurrence of a value in a string"
+            document.getElementById("demo").innerHTML = result;
+            document.getElementById("description").innerHTML = description;
+        }
+        function localeCompare(){
+            let text1 = "ab";
+            let text2 = "cd";
+            let description ='The localeCompare() method compares two strings in the current locale<br>The localeCompare() method returns sort order -1, 1, or 0 (for before, after, or equal).<br>The current locale is based on the language settings of the browser.'
+            let result = text1.localeCompare(text2);
+            document.getElementById("demo").innerHTML = result;
+            document.getElementById("description").innerHTML = description;    
+        }
+        function matchString(){
+            let text = "The rain in SPAIN stays mainly in the plain"
+            let description="The match() method matches a string against a regular expression **<br>The match() method returns an array with the matches.<br>The match() method returns null if no match is found."
+            let result = text.match("ain");
+            document.getElementById("demo").innerHTML = result;
+            document.getElementById("description").innerHTML = description;
+        }
+        function replace(){
+            let text = "Visit Microsoft!";
+            description="Searches a string for a value, or a regular expression, and returns a string where the values are replaced" 
+            document.getElementById("demo").innerHTML = text.replace("Microsoft", "W3Schools");
+            document.getElementById("description").innerHTML = description; 
+        }
+        function search(){
+            let text = "Mr. Blue has a blue house"
+            let position = text.search("Blue");
+            description ="Searches a string for a value, or regular expression, and returns the index (position) of the match"
+            document.getElementById("demo").innerHTML = position;
+            document.getElementById("description").innerHTML = description;
+        }
+        function slice(){
+            let text = "How are you doing today?";
+            description="Extracts a part of a string and returns a new string"
+            const myArray = text.split(" ");
+            document.getElementById("demo").innerHTML = myArray;
+            document.getElementById("description").innerHTML = description;
+        }
+        function split(){
+            let text = "How are you doing today?";
+            description="Splits a string into an array of substrings"
+            const myArray = text.split(" ");
+            document.getElementById("demo").innerHTML = myArray;
+            document.getElementById("description").innerHTML = description;  
+        }
+        function substr(){
+            let text = "Hello world!";
+            description="Extracts a number of characters from a string, from a start index (position)"
+            let result = text.substr(1, 4);
+            document.getElementById("demo").innerHTML = result;
+            document.getElementById("description").innerHTML = description;
+        }
+        function toLowerCase(){
+            let text = "Hello World!";
+            description="Returns a string converted to lowercase letters, using the host's locale"
+            let result = text.toLocaleLowerCase();
+            document.getElementById("demo").innerHTML = result;
+            document.getElementById("description").innerHTML = description; 
+        }
+        function toUpperCase(){
+            let text = "Hello World!";
+            description="Returns a string converted to uppercase letters, using the host's locale"
+            let result = text.toLocaleUpperCase();
+            document.getElementById("demo").innerHTML = result;
+            document.getElementById("description").innerHTML = description;
+        }
+    // Array Methods
+        function executeForEach(){
+            const numbers = [45, 4, 9, 16, 25];
+            let txt = "";
+            numbers.forEach(myFunction);
+            document.getElementById("demo").innerHTML = txt;
+
+            function myFunction(value) {
+            txt += value + "<br>"; 
+            }            
+        }
+        function sliceArray(){
+            const fruits = ["Banana", "Orange", "Lemon", "Apple", "Mango"];
+            const citrus = fruits.slice(2);
+            document.getElementById("demo").innerHTML = fruits + "<br><br>" + citrus;
+        }
+        function reduceArray(){
+            const numbers1 = [45, 4, 9, 16, 25];
+            const numbers2 = numbers1.map((value)=>{
+                return value * 2;
+            })
+            document.getElementById("demo").innerHTML = numbers2;
+        }
+        function filterArray(){
+            const numbers = [45, 4, 9, 16, 25];
+            const over18 = numbers.filter((value)=>{
+                return value > 18;
+            });
+            document.getElementById("demo").innerHTML = over18;
+
+        }
+        function mapArray(){
+            const array1 = [1, 4, 9, 16];
+            // pass a function to map
+            const map1 = array1.map(x => x * 2);
+            document.getElementById("demo").innerHTML = map1;
+            // expected output: Array [2, 8, 18, 32]
+        }
+        function findElement(){
+            const array1 = [5, 12, 8, 130, 44];
+            const found = array1.find(element => element > 10);
+            document.getElementById("demo").innerHTML = found;
+            // expected output: 12
+        }
+        function getYear(){
+            const d = new Date();
+            document.getElementById("demo").innerHTML = d.getFullYear();
+        }
+        function getMonth(){
+            const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+            const d = new Date();
+            let month = months[d.getMonth()];
+            document.getElementById("demo").innerHTML = month;
+        }
+        function getDateUTCTimezone(){
+            const event = new Date('14 Jun 2017 00:00:00 PDT');
+            document.getElementById("demo").innerHTML = event.toUTCString();
+        }
+        function getDateString(){
+            const event = new Date();
+            // (note: your timezone may vary)
+            document.getElementById("demo").innerHTML = event.toDateString();
+        }
+    </script>
+</html>
