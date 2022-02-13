@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Regex</title>
+  </head>
+  <body>
+    Search for 'w3Schools' in string (case-sensitive): Visit W3Schools! <br />
+    <button type="button" onclick="searchString('case-sensitive')">Go!</button>
+    <br />
+    Search for 'w3Schools' in string (case-insensitive) : Visit W3Schools!
+    <br />
+    <button type="button" onclick="searchString('case-insensitive')">
+      Go!
+    </button>
+    <p>Position of the searched string is:</p>
+    <p id="demo"></p>
+    <p>Replace "Microsoft" with "W3Schools" in the paragraph below:</p>
+    <button onclick="replace()">replace</button>
+    <p id="demo-1">Please visit Microsoft!</p>
+    <p>
+      Do a global search for any of the specified alternatives
+      (red|green|yellow):
+    </p>
+    <p>input strin: re, green, red, green, gren, gr, blue, yellow, violet</p>
+    <button onclick="globalSearch()">global search</button>
+    <p id="demo-2"></p>
+  </body>
+  <script>
+    function searchString(c) {
+      let text = "Visit W3Schools!";
+      let n;
+      c == "case-sensitive"
+        ? (n = text.search("w3Schools"))
+        : (n = text.search(/w3Schools/i));
+      document.getElementById("demo").innerHTML = n;
+    }
+    function replace() {
+      let text = document.getElementById("demo-1").innerHTML;
+      document.getElementById("demo-1").innerHTML = text.replace(
+        "Microsoft",
+        "W3Schools"
+      );
+    }
+    function globalSearch() {
+      let text = "re, green, red, green, gren, gr, blue, yellow, violet";
+      let result = text.match(/(red|green|yellow)/g);
+      document.getElementById("demo-2").innerHTML = result;
+    }
+  </script>
+</html>
