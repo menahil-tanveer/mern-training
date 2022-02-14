@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Browser Detection</title>
+  </head>
+  <body onload="fnBrowserDetect()">
+    <h1></h1>
+    <script>
+      function fnBrowserDetect() {
+        let userAgent = navigator.userAgent;
+        let browserName;
+
+        if (userAgent.match(/chrome|chromium|crios/i)) {
+          browserName = "chrome";
+        } else if (userAgent.match(/firefox|fxios/i)) {
+          browserName = "firefox";
+        } else if (userAgent.match(/safari/i)) {
+          browserName = "safari";
+        } else if (userAgent.match(/opr\//i)) {
+          browserName = "opera";
+        } else if (userAgent.match(/edg/i)) {
+          browserName = "edge";
+        } else {
+          browserName = "No browser detection";
+        }
+
+        document.querySelector("h1").innerText =
+          "You are using " + browserName + " browser";
+      }
+    </script>
+  </body>
+</html>
