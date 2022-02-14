@@ -48,54 +48,9 @@
     <button type="button" onclick="getMonth()">Month</button>
     <button type="button" onclick="getDateUTCTimezone()">to UTC String</button>
     <button type="button" onclick="getDateString()">to Date String</button>
-    <h1>Math Methods</h1>
-
-    <p>
-      Unlike other objects, the Math object has no constructor. The Math object
-      is static. All methods and properties can be used without creating a Math
-      object first. <br />
-      <br />
-      <div id="math-demo"></div>
-    </p>
   </body>
 
   <script>
-    let description;
-    // MATH Methods
-    document.getElementById("math-demo").innerHTML =
-      "<p><b>Math.E:</b> " +
-      Math.E +
-      "</p>" +
-      "<p><b>Math.PI:</b> " +
-      Math.PI +
-      "</p>" +
-      "<p><b>Math.SQRT2:</b> " +
-      Math.SQRT2 +
-      "</p>" +
-      "<p><b>Math.SQRT1_2:</b> " +
-      Math.SQRT1_2 +
-      "</p>" +
-      "<p><b>Math.LN2:</b> " +
-      Math.LN2 +
-      "</p>" +
-      "<p><b>Math.LN10:</b> " +
-      Math.LN10 +
-      "</p>" +
-      "<p><b>Math.LOG2E:</b> " +
-      Math.LOG2E +
-      "</p>" +
-      "<p><b>Math.Log10E:</b> " +
-      Math.LOG10E +
-      "</p>" + 
-      `<p><b>Math.pow(8,2):</b> ${Math.pow(8,2)}</p>
-      <p><b>Math.abs(-2):</b> ${Math.abs(-2)}</p>
-      <p><b>Math.floor(2.9):</b> ${Math.floor(2.9)}</p>
-      <p><b>Math.ceil(2.9):</b> ${Math.ceil(2.9)}</p>
-      <p><b>Math.trunc(2.9):</b> ${Math.trunc(2.9)}</p>
-      <p><b>Math.min(0, 150, 30, 20, -8, -200):</b> ${Math.min(0, 150, 30, 20, -8, -200)}</p>
-      <p><b>Math.max(0, 150, 30, 20, -8, -200):</b> ${Math.max(0, 150, 30, 20, -8, -200)}</p>
-      <p><b>Math.random():</b> ${Math.random()}</p>
-      `
     // String Methods
     function stringLength() {
       let text = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
