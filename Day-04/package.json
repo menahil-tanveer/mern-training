@@ -1,0 +1,15 @@
+{
+  "name": "sample-packae",
+  "version": "1.0.0",
+  "description": "sample description",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "sample-package"
+  ],
+  "author": "menahil",
+  "license": "ISC"
+}
