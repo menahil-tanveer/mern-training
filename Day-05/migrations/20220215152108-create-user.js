@@ -26,9 +26,6 @@ module.exports = {
         type: Sequelize.DATE,
       },
     });
-    queryInterface.addColumn("city", {
-      type: Sequelize.DataTypes.STRING,
-    });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable("Users");
