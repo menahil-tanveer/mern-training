@@ -5,8 +5,6 @@ module.exports = {
     /**
      * Add altering commands here.
      *
-     * Example:
-     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
      */
     return queryInterface.sequelize.transaction((t) => {
       return Promise.all([
@@ -34,8 +32,6 @@ module.exports = {
     /**
      * Add reverting commands here.
      *
-     * Example:
-     * await queryInterface.dropTable('users');
      */
     return queryInterface.sequelize.transaction((t) => {
       return Promise.all([
