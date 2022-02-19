@@ -14,13 +14,20 @@ module.exports = (sequelize, DataTypes) => {
   }
   User.init(
     {
-      firstName: DataTypes.STRING,
+      firstName: {
+        type: DataTypes.STRING,
+        defaultValue: "John" /* sets default value as john instead of NULL */,
+      },
       lastName: DataTypes.STRING,
       email: DataTypes.STRING,
     },
     {
       sequelize,
       modelName: "User",
+      timestamps: false /* Sequelize automatically adds the fields createdAt and updatedAt; this is used to disable that */,
+      createdAt: true /* set this to false if not required*/,
+      updatedAt:
+        "updateTimestamp" /* to refer 'updatedAt' as 'updateTimestamp' */,
     }
   );
   return User;

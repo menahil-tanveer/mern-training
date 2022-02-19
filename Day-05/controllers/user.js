@@ -3,7 +3,7 @@ const userProfileModel = require("../models").userProfile;
 
 const getAllUsers = async (req, res) => {
   try {
-    let users = await usersModel.findAll({
+    const users = await usersModel.findAll({
       include: userProfileModel,
     });
     res.status(200).send(users);

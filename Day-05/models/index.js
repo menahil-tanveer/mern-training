@@ -15,13 +15,24 @@ if (config.use_env_variable) {
   console.log(
     `DB_NAME::::${process.env.DB_NAME},DB_USERNAME::::${process.env.DB_USERNAME},DB_PASSWORD::::${process.env.DB_PASSWORD}",`
   );
+  // sequelize = new Sequelize(
+  //   process.env.DB_NAME,
+  //   process.env.DB_USERNAME,
+  //   process.env.DB_PASSWORD,
+  //   config
+  // );
   sequelize = new Sequelize(
     process.env.DB_NAME,
     process.env.DB_USERNAME,
     process.env.DB_PASSWORD,
-    config
+    {
+      host: "localhost",
+      dialect:
+        "postgres" /* one of 'mysql' | 'mariadb' | 'postgres' | 'mssql' */,
+    }
   );
 }
+// Check if connection has been established
 try {
   sequelize
     .authenticate()
