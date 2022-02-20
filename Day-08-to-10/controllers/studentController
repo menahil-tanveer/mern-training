@@ -1,0 +1,90 @@
+const studentModel = require("../models").Student;
+const courseModel = require("../models").Course;
+const { Op } = require("sequelize");
+/**
+ *
+ * @param req
+ * @param res
+ * @description this method is responsible for fetching all students
+ */
+const getAllStudents = async (req, res) => {
+  try {
+    const students = await studentModel.findAll({
+      include: courseModel,
+    });
+    res.status(200).send(students);
+  } catch (error) {
+    res.status(400).json({ error: error.toString() });
+  }
+};
+/**
+ *
+ * @param req
+ * @param res
+ * @description this method is responsible for fetching a student by id
+ */
+const getStudentById = async (req, res) => {
+  try {
+    const student = await studentModel.findOne({
+      include: courseModel,
+      where: {
+        id: req.params.id,
+      },
+    });
+    if (!student) res.status(404).send("Student not found!");
+    else res.status(200).send(student);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+/**
+ *
+ * @param req
+ * @param res
+ * @description this method is responsible for deleting student by id
+ */
+const deleteStudent = async (req, res) => {
+  try {
+    const student = await studentModel.findOne({
+      include: courseModel,
+      where: {
+        id: req.params.id,
+      },
+    });
+    if (!student) res.status(404).send("Student not found!");
+    else {
+      await studentModel.destroy({
+        where: {
+          id: req.params.id,
+        },
+      });
+      res.status(200).send("Student deleted!");
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message + "bruhhh come on" });
+  }
+};
+/**
+ *
+ * @param req
+ * @param res
+ * @description this method is responsible for deleting all students
+ */
+const deleteAllStudents = async (req, res) => {
+  try {
+    await studentModel.destroy({
+      where: {},
+      truncate: true,
+    });
+    res.status(200).send("All Students Deleted");
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+module.exports = {
+  getAllStudents,
+  getStudentById,
+  deleteStudent,
+  deleteAllStudents,
+};

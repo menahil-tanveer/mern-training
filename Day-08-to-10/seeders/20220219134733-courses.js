@@ -19,6 +19,7 @@ module.exports = {
         course_id: data[i][0],
         name: data[i][1],
         creditHours: data[i][2],
+        roll_no: data[i][3],
         createdAt: new Date(),
         updatedAt: new Date(),
       });

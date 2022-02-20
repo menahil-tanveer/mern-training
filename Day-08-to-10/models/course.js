@@ -9,12 +9,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Course.belongsTo(models.Student, { foreignKey: "roll_no" });
     }
   }
   Course.init(
     {
       course_id: {
         type: DataTypes.STRING,
+        primaryKey: true,
         validate: {
           notEmpty: true,
           isAlphanumeric: true,

@@ -20,6 +20,7 @@ module.exports = {
         lastName: data[i][1],
         email: data[i][2],
         roll_no: data[i][3],
+        // course_id: data[i][4],
         createdAt: new Date(),
         updatedAt: new Date(),
       });
