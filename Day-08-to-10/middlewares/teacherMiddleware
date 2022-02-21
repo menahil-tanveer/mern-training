@@ -5,7 +5,7 @@ const Joi = require("joi");
  * @param next
  * @description This method is responsible for validating student input data
  */
-function validateStudent(req, res, next) {
+function validateTeacher(req, res, next) {
   const { firstName, lastName, email, roll_no } = req.body;
   let payload = {
     firstName: firstName.toLowerCase().trim(),
@@ -28,10 +28,8 @@ function validateStudent(req, res, next) {
       email: Joi.string()
         .regex(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
         .required(),
-      roll_no: Joi.string()
+      teacher_id: Joi.string()
         .regex(/^[A-Za-z0-9]+$/)
-        .min(2)
-        .max(24)
         .required(),
     });
     const result = schema.validate(payload);
@@ -48,5 +46,5 @@ function validateStudent(req, res, next) {
   }
 }
 module.exports = {
-  validateStudent,
+  validateTeacher,
 };

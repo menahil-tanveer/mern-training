@@ -17,18 +17,28 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         validate: {
           isAlpha: true,
-          max: 23, // only allow values <= 23
-          min: 2,
+          len: [2, 24],
           notEmpty: true,
+        },
+        set(value) {
+          this.setDataValue("firstName", value.toLowerCase().trim());
+        },
+        get(value) {
+          return value.upperCase();
         },
       },
       lastName: {
         type: DataTypes.STRING,
         validate: {
           isAlpha: true,
-          max: 23, // only allow values <= 23
-          min: 2,
+          len: [2, 24],
           notEmpty: true,
+        },
+        set(value) {
+          this.setDataValue("lastName", value.toLowerCase().trim());
+        },
+        get(value) {
+          return value.upperCase();
         },
       },
       email: {
@@ -36,6 +46,9 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           isEmail: true,
           notEmpty: true,
+        },
+        set(value) {
+          this.setDataValue("email", value.toLowerCase().trim());
         },
       },
       teacher_id: {

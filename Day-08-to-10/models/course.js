@@ -23,32 +23,29 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         validate: {
           notEmpty: true,
-          // isAlphanumeric: true,
         },
       },
       name: {
         type: DataTypes.STRING,
         validate: {
           isAlpha: true,
-          max: 23, // only allow values <= 23
-          min: 2,
+          len: [2, 24],
           notEmpty: true,
           isLowercase: true,
         },
-        // set(value) {
-        //   this.setDataValue("name", value.toLowerCase());
-        // },
+        set(value) {
+          this.setDataValue("name", value.toLowerCase());
+        },
+        get(value) {
+          value.toUpperCase();
+        },
       },
       creditHours: {
         type: DataTypes.INTEGER,
         notEmpty: true,
         isInt: true,
-        max: 4,
-        min: 1,
+        len: [1, 4],
       },
-      // set(value) {
-      //   this.setDataValue("creditHours", value.trim());
-      // },
     },
     {
       sequelize,
