@@ -67,6 +67,11 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Student",
+      hooks: {
+        beforeCreate(student, options) {
+          student.roll_no = `COMSATS-${student.roll_no}`;
+        },
+      },
     }
   );
   return Student;
