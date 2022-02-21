@@ -13,9 +13,6 @@ module.exports = {
       await queryInterface.removeColumn(
         "Courses",
         "roll_no",
-        {
-          type: Sequelize.DataTypes.STRING,
-        },
         { transaction }
       );
       await transaction.commit();

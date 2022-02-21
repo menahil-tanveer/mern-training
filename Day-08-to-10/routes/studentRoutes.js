@@ -4,6 +4,8 @@ const studentMiddlewares = require("../middlewares/studentMiddlewares");
 const studentController = require("../controllers/studentController");
 
 router.get("/", studentController.getAllStudents);
+router.post("/", studentController.createStudent);
+router.post("/assignCourse", studentController.assignCourse);
 router.get("/:id", studentController.getStudentById);
 router.delete("/:id", studentController.deleteStudent);
 router.delete("/", studentController.deleteAllStudents);

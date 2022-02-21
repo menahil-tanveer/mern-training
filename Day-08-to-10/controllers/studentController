@@ -1,11 +1,54 @@
 const studentModel = require("../models").Student;
 const courseModel = require("../models").Course;
-const { Op } = require("sequelize");
+// const { Op } = require("sequelize");
+// ------------------------------------- CREATE METHOD -------------------------------------
 /**
  *
  * @param req
  * @param res
- * @description this method is responsible for fetching all students
+ * @description This method is responsible for adding student to db
+ */
+const createStudent = async (req, res) => {
+  let { firstName, lastName, email, roll_no } = req.body;
+  try {
+    const student = await studentModel.create({
+      firstName,
+      lastName,
+      email,
+      roll_no,
+    });
+    res.status(200).send(student);
+  } catch (error) {
+    res.status(400).json({ error: error.toString() + "\n bruh :|" });
+  }
+};
+/**
+ *
+ * @param req
+ * @param res
+ * @description This method is responsible for assigning a course to student
+ */
+const assignCourse = async (req, res) => {
+  let { course_id, roll_no } = req.body;
+  try {
+    let student = await studentModel.findByPk(roll_no);
+    let course = await courseModel.findByPk(course_id);
+    if (!student) res.status(404).send("Student not found!");
+    else if (!course) res.status(404).send("Course not found!");
+    else {
+      student.addCourse(course);
+      res.status(200).send("result");
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message + "\n bruh :|" });
+  }
+};
+// ------------------------------------- FETCH METHODS -------------------------------------
+/**
+ *
+ * @param req
+ * @param res
+ * @description This method is responsible for fetching all students
  */
 const getAllStudents = async (req, res) => {
   try {
@@ -21,22 +64,28 @@ const getAllStudents = async (req, res) => {
  *
  * @param req
  * @param res
- * @description this method is responsible for fetching a student by id
+ * @description This method is responsible for fetching a student by id
  */
 const getStudentById = async (req, res) => {
   try {
     const student = await studentModel.findOne({
-      include: courseModel,
+      // include: courseModel,
       where: {
         id: req.params.id,
       },
     });
     if (!student) res.status(404).send("Student not found!");
-    else res.status(200).send(student);
+    else {
+      let result = await student.getCourses();
+      // student.addCourse(course);
+      console.log("student courses", result);
+      res.status(200).send(result);
+    }
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
 };
+// ------------------------------------- DELETION METHODS -------------------------------------
 
 /**
  *
@@ -87,4 +136,6 @@ module.exports = {
   getStudentById,
   deleteStudent,
   deleteAllStudents,
+  createStudent,
+  assignCourse,
 };

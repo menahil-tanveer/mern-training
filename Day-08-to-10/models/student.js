@@ -9,7 +9,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Student.hasMany(models.Course, { foreignKey: "roll_no" });
+      Student.belongsToMany(models.Course, {
+        through: "StudentCourseJunction",
+        foreignKey: "roll_no",
+      });
     }
   }
   Student.init(
@@ -17,46 +20,49 @@ module.exports = (sequelize, DataTypes) => {
       firstName: {
         type: DataTypes.STRING,
         validate: {
-          isAlpha: true,
-          max: 23, // only allow values <= 23
-          min: 2,
-          notEmpty: true,
+          len: [2, 24],
+          is: /^[a-zA-Z]+$/i,
           isLowercase: true,
+        },
+        set(value) {
+          this.setDataValue("firstName", value.toLowerCase().trim());
         },
       },
       lastName: {
         type: DataTypes.STRING,
         validate: {
-          isAlpha: true,
-          max: 23, // only allow values <= 23
-          min: 2,
-          notEmpty: true,
+          len: [2, 24],
+          is: /^[a-zA-Z]+$/i,
           isLowercase: true,
+        },
+        set(value) {
+          this.setDataValue("lastName", value.toLowerCase().trim());
         },
       },
       email: {
         type: DataTypes.STRING,
+        unique: true,
         validate: {
-          isEmail: true,
           notEmpty: true,
+          isEmail: true,
           isLowercase: true,
+        },
+        set(value) {
+          this.setDataValue("email", value.toLowerCase().trim());
         },
       },
       roll_no: {
         type: DataTypes.STRING,
+        unique: true,
         validate: {
           notEmpty: true,
           isAlphanumeric: true,
         },
+        set(value) {
+          this.setDataValue("roll_no", value.trim());
+        },
         primaryKey: true,
       },
-      // course_id: {
-      //   type: DataTypes.STRING,
-      //   validate: {
-      //     notEmpty: true,
-      //     isAlphanumeric: true,
-      //   },
-      // },
     },
     {
       sequelize,

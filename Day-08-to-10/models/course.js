@@ -9,7 +9,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Course.belongsTo(models.Student, { foreignKey: "roll_no" });
+      // Course.belongsTo(models.Student, { foreignKey: "roll_no" });
+      Course.belongsToMany(models.Student, {
+        through: "StudentCourseJunction",
+        foreignKey: "course_id",
+      });
     }
   }
   Course.init(
@@ -19,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
         primaryKey: true,
         validate: {
           notEmpty: true,
-          isAlphanumeric: true,
+          // isAlphanumeric: true,
         },
       },
       name: {
@@ -31,6 +35,9 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: true,
           isLowercase: true,
         },
+        // set(value) {
+        //   this.setDataValue("name", value.toLowerCase());
+        // },
       },
       creditHours: {
         type: DataTypes.INTEGER,
@@ -39,6 +46,9 @@ module.exports = (sequelize, DataTypes) => {
         max: 4,
         min: 1,
       },
+      // set(value) {
+      //   this.setDataValue("creditHours", value.trim());
+      // },
     },
     {
       sequelize,
