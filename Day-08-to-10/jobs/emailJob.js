@@ -5,7 +5,7 @@ const transporter = mailer.createTransport({
   service: "gmail",
   auth: {
     user: "iamhamid28@gmail.com",
-    pass: "pakistan028",
+    pass: "XXXXXXXX",
   },
 });
 
