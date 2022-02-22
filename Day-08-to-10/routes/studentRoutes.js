@@ -3,6 +3,7 @@ const router = express.Router();
 const studentMiddlewares = require("../middlewares/studentMiddlewares");
 const studentController = require("../controllers/studentController");
 const emailJob = require("../jobs/emailJob");
+const eventEmitter = require("../events/testEventEmitter");
 
 router.get("/", studentController.getAllStudents);
 router.post(
@@ -12,6 +13,7 @@ router.post(
 );
 router.post("/sendRegistrationEmail", emailJob.sendEmail);
 router.post("/sendRegEmailByCronJob", emailJob.scheduleEmail);
+router.post("/testEventEmitter", eventEmitter.testEvent);
 
 router.post("/assignCourse", studentController.assignCourse);
 router.get("/:id", studentController.getStudentById);
