@@ -1,4 +1,10 @@
+const jwt = require("jsonwebtoken");
 const userModel = require("../models").User;
+const login = async (req, res) => {
+  jwt.sign({}, "secretKey", (err, token) => {
+    res.json({ token: token });
+  });
+};
 // ---------------------------------------------- CREATE METHODS----------------------------------------------------
 /**
  *
@@ -9,24 +15,23 @@ const userModel = require("../models").User;
 const createUser = async (req, res) => {
   let { firstName, lastName, email, password, userId, isTeacher } = req.body;
   try {
-    let user = await userModel.findByPk(userId);
-    if (!user) {
-      const newUser = await userModel.create({
-        firstName,
-        lastName,
-        email,
-        password,
-        userId,
-        isTeacher,
-      });
-      res.status(200).send(newUser);
-    } else {
-      res.status(400).send("User already exists");
-    }
+    const newUser = await userModel.create({
+      firstName,
+      lastName,
+      email,
+      password,
+      userId,
+      isTeacher,
+    });
+    res.status(200).send(newUser);
   } catch (error) {
-    res
-      .status(400)
-      .json({ error: error.toString() + "\n Err! Something went wrong *_* " });
+    if (error.errors && error.errors[0].type == "unique violation") {
+      res.status(400).json({
+        error: error.errors[0].message,
+      });
+    } else {
+      res.status(500).json({ error: error.message });
+    }
   }
 };
 // ---------------------------------------------- GET METHODS-------------------------------------------------------
@@ -37,7 +42,7 @@ const createUser = async (req, res) => {
  */
 const getAllUsers = async (req, res) => {
   try {
-    const users = await usersModel.findAll();
+    const users = await userModel.findAll();
     res.status(200).send(users);
   } catch (error) {
     res.status(400).json({ error: error.toString() });
@@ -48,9 +53,29 @@ const getAllUsers = async (req, res) => {
  * @param {*} req
  * @param {*} res
  */
+const getUserById = async (req, res) => {
+  try {
+    const user = await userModel.findOne({
+      where: {
+        userId: req.params.userId,
+      },
+    });
+    if (!user) res.status(404).send("User not found!");
+    else {
+      res.status(200).send(user);
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+/**
+ *
+ * @param {*} req
+ * @param {*} res
+ */
 const getAllStudents = async (req, res) => {
   try {
-    const users = await usersModel.findAll({
+    const users = await userModel.findAll({
       where: {
         isTeacher: "FALSE",
       },
@@ -67,7 +92,7 @@ const getAllStudents = async (req, res) => {
  */
 const getAllTeachers = async (req, res) => {
   try {
-    const users = await usersModel.findAll({
+    const users = await userModel.findAll({
       where: {
         isTeacher: "TRUE",
       },
@@ -78,11 +103,70 @@ const getAllTeachers = async (req, res) => {
   }
 };
 // ---------------------------------------------- UPDATE METHODS-------------------------------------------------------
+/**
+ *
+ * @param req
+ * @param res
+ * @description This method is responsible for updating user data in database
+ */
+const updateUser = async (req, res) => {
+  try {
+    console.log("req.params.id:::::::", req.body);
+    const user = await userModel.findOne({
+      where: {
+        userId: req.params.userId,
+      },
+    });
+    if (!user) res.status(404).send("User not found");
+    else {
+      const updatedUser = await user.update(req.body);
+      await user.save();
+      res.status(200).send(updatedUser);
+    }
+  } catch (error) {
+    if (error.errors && error.errors[0].type == "unique violation") {
+      res.status(400).json({
+        error: error.errors[0].message,
+      });
+    } else {
+      res.status(500).json({ error: error.message });
+    }
+  }
+};
 // ---------------------------------------------- DELETE METHODS-------------------------------------------------------
-
+/**
+ *
+ * @param req
+ * @param res
+ * @description This method is responsible for deleting user from database
+ */
+const deleteUser = async (req, res) => {
+  try {
+    const user = await userModel.findOne({
+      where: {
+        userId: req.params.userId,
+      },
+    });
+    if (!user) res.status(404).send("User not found");
+    else {
+      await user.destroy({
+        where: {
+          id: req.params.id,
+        },
+      });
+      res.status(200).send("User successfully deleted");
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
 module.exports = {
   getAllUsers,
   getAllStudents,
   getAllTeachers,
+  getUserById,
   createUser,
+  updateUser,
+  deleteUser,
+  login,
 };
