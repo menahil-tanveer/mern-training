@@ -9,15 +9,20 @@ const userModel = require("../models").User;
 const createUser = async (req, res) => {
   let { firstName, lastName, email, password, userId, isTeacher } = req.body;
   try {
-    const user = await userModel.create({
-      firstName,
-      lastName,
-      email,
-      password,
-      userId,
-      isTeacher,
-    });
-    res.status(200).send(user);
+    let user = await userModel.findByPk(userId);
+    if (!user) {
+      const newUser = await userModel.create({
+        firstName,
+        lastName,
+        email,
+        password,
+        userId,
+        isTeacher,
+      });
+      res.status(200).send(newUser);
+    } else {
+      res.status(400).send("User already exists");
+    }
   } catch (error) {
     res
       .status(400)
