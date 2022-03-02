@@ -3,7 +3,7 @@ const express = require("express");
 
 const userRoutes = require("./routes/userRoutes");
 // const teacherRoutes = require("./routes/teacherRoutes");
-// const courseRoutes = require("./routes/courseRoutes");
+const courseRoutes = require("./routes/courseRoutes");
 
 const app = express();
 const port = 8082;
@@ -18,7 +18,7 @@ app.get("/", (req, res) => {
 });
 app.use("/api/users", userRoutes);
 // app.use("/api/teachers", teacherRoutes);
-// app.use("/api/courses", courseRoutes);
+app.use("/api/courses", courseRoutes);
 app.listen(port, () => {
   console.log("Server is running on::::", port);
 });

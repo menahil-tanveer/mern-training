@@ -59,7 +59,7 @@ function validateUser(req, res, next) {
  * @param req
  * @param res
  * @param next
- * @description This method is responsible for validating if updated data is valid
+ * @description This method is responsible for validating updated data
  */
 function validateUpdationData(req, res, next) {
   try {
