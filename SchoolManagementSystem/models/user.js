@@ -10,12 +10,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.belongsToMany(models.Course, {
+        through: "Registrations",
+        foreignKey: "userId",
+      });
     }
   }
   User.init(
     {
       userId: {
         type: DataTypes.STRING,
+        primaryKey: true,
         unique: true,
         validate: {
           len: [10, 50],
@@ -69,8 +74,8 @@ module.exports = (sequelize, DataTypes) => {
           this.setDataValue("password", hash);
         },
       },
-      isTeacher: {
-        type: DataTypes.BOOLEAN,
+      role: {
+        type: DataTypes.STRING,
         validate: {
           notEmpty: true,
         },

@@ -20,7 +20,7 @@ module.exports = {
         lastName: data[i][2],
         email: data[i][3],
         password: data[i][4],
-        isTeacher: data[i][5],
+        role: data[i][5],
         createdAt: new Date(),
         updatedAt: new Date(),
       });

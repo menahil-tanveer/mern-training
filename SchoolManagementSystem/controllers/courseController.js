@@ -117,7 +117,7 @@ const deleteCourse = async (req, res) => {
     else {
       await course.destroy({
         where: {
-          id: req.params.id,
+          courseId: req.params.courseId,
         },
       });
       res.status(200).send("Course successfully deleted");

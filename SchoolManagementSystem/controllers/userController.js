@@ -1,5 +1,7 @@
 const jwt = require("jsonwebtoken");
 const userModel = require("../models").User;
+const courseModel = require("../models").Course;
+
 const login = async (req, res) => {
   jwt.sign({}, "secretKey", (err, token) => {
     res.json({ token: token });
@@ -13,7 +15,7 @@ const login = async (req, res) => {
  * @description This method is responsible for adding user to db
  */
 const createUser = async (req, res) => {
-  let { firstName, lastName, email, password, userId, isTeacher } = req.body;
+  let { firstName, lastName, email, password, userId, role } = req.body;
   try {
     const newUser = await userModel.create({
       firstName,
@@ -21,7 +23,7 @@ const createUser = async (req, res) => {
       email,
       password,
       userId,
-      isTeacher,
+      role,
     });
     res.status(200).send(newUser);
   } catch (error) {
@@ -42,7 +44,9 @@ const createUser = async (req, res) => {
  */
 const getAllUsers = async (req, res) => {
   try {
-    const users = await userModel.findAll();
+    const users = await userModel.findAll({
+      include: courseModel,
+    });
     res.status(200).send(users);
   } catch (error) {
     res.status(400).json({ error: error.toString() });
@@ -151,13 +155,35 @@ const deleteUser = async (req, res) => {
     else {
       await user.destroy({
         where: {
-          id: req.params.id,
+          userId: req.params.userId,
         },
       });
       res.status(200).send("User successfully deleted");
     }
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+// ----------------------------------------------- ASSIGN COURSE -----------------------------------------------
+/**
+ *
+ * @param req
+ * @param res
+ * @description This method is responsible for assigning a course to student
+ */
+const assignCourse = async (req, res) => {
+  let { courseId, userId } = req.body;
+  try {
+    let user = await userModel.findByPk(userId);
+    let course = await courseModel.findByPk(courseId);
+    if (!user) res.status(404).send("User not found!");
+    else if (!course) res.status(404).send("Course not found!");
+    else {
+      user.addCourse(course);
+      res.status(200).send(`${course.courseId} assigned to ${user.userId}`);
+    }
+  } catch (error) {
+    res.status(500).json({ error: error.message + "\n bruh :|" });
   }
 };
 module.exports = {
@@ -168,5 +194,6 @@ module.exports = {
   createUser,
   updateUser,
   deleteUser,
+  assignCourse,
   login,
 };

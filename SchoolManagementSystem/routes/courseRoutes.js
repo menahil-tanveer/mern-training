@@ -26,11 +26,12 @@ router.post(
   [courseMiddleware.validateCourse, authenticateToken.verifyToken],
   courseController.createCourse
 );
-router.put(
-  "/update-course/:courseId",
-  [courseMiddleware.validateUpdationData, authenticateToken.verifyToken],
-  courseController.updateCourse
-);
+  router.put(
+    "/update-course/:courseId",
+    [courseMiddleware.validateUpdationData, authenticateToken.verifyToken],
+    courseController.updateCourse
+  );
+
 router.delete(
   "/delete-course/:courseId",
   [authenticateToken.verifyToken],

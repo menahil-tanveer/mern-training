@@ -9,12 +9,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      Course.belongsToMany(models.User, {
+        through: "Registrations",
+        foreignKey: "courseId",
+      });
     }
   }
   Course.init(
     {
       courseId: {
         type: DataTypes.STRING,
+        primaryKey:true,
         unique: true,
         validate: {
           len: [3, 50],
@@ -28,7 +33,7 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         validate: {
           len: [2, 50],
-          is: /^[a-zA-Z ]+$/i,
+          is: /^[a-zA-Z0-9 ]+$/i,
           notEmpty: true,
         },
         set(value) {

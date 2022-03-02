@@ -24,11 +24,12 @@ router.post(
   [userMiddleware.validateUser],
   userController.createUser
 );
-router.put(
-  "/update-user/:userId",
-  [userMiddleware.validateUpdationData],
-  userController.updateUser
-);
+router.post("/assign-course", userController.assignCourse),
+  router.put(
+    "/update-user/:userId",
+    [userMiddleware.validateUpdationData],
+    userController.updateUser
+  );
 router.delete("/delete-user/:userId", userController.deleteUser);
 router.post("/login", userController.login);
 

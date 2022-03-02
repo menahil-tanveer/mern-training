@@ -15,7 +15,7 @@ function validateCourse(req, res, next) {
   try {
     const schema = Joi.object().keys({
       courseName: Joi.string()
-        .regex(/^[A-Za-z ]+$/)
+        .regex(/^[A-Za-z0-9 ]+$/)
         .min(2)
         .max(50)
         .required(),
