@@ -77,7 +77,6 @@ const getCourseById = async (req, res) => {
  */
 const updateCourse = async (req, res) => {
   try {
-    console.log("req.params.id:::::::", req.body);
     const course = await courseModel.findOne({
       where: {
         courseId: req.params.courseId,
