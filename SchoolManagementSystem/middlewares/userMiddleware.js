@@ -6,14 +6,14 @@ const Joi = require("joi");
  * @description This method is responsible for validating student input data
  */
 function validateUser(req, res, next) {
-  const { firstName, lastName, email, password, userId, isTeacher } = req.body;
+  const { firstName, lastName, email, password, userId, role } = req.body;
   let payload = {
     userId: userId ? userId.toLowerCase().trim() : null,
     firstName: firstName ? firstName.toLowerCase().trim() : null,
     lastName: lastName ? lastName.toLowerCase().trim() : null,
     email: email ? email.toLowerCase().trim() : null,
     password: password ? password.trim() : null,
-    isTeacher: isTeacher ? isTeacher.trim() : false,
+    role: role ? role.trim() : null,
   };
   try {
     const schema = Joi.object().keys({

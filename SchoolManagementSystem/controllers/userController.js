@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
 const userModel = require("../models").User;
 const courseModel = require("../models").Course;
+const invitationEmail = require("../jobs/invitationEmail");
 
 const login = async (req, res) => {
   jwt.sign({}, "secretKey", (err, token) => {
@@ -25,6 +26,7 @@ const createUser = async (req, res) => {
       userId,
       role,
     });
+    invitationEmail.sendEmail(req.body)
     res.status(200).send(newUser);
   } catch (error) {
     if (error.errors && error.errors[0].type == "unique violation") {
