@@ -3,7 +3,7 @@ const Joi = require("joi");
  * @param req
  * @param res
  * @param next
- * @description This method is responsible for validating student input data
+ * @description This method is responsible for validating admin input data
  */
 function validateAdmin(req, res, next) {
   const { fullName, email, password, adminId } = req.body;

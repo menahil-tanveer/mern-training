@@ -68,7 +68,7 @@ const getAdminById = async (req, res) => {
  *
  * @param req
  * @param res
- * @description This method is responsible for updating admin data in database
+ * @description This method is responsible for updating admin data in db
  */
 const updateAdmin = async (req, res) => {
   try {
