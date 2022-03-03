@@ -25,7 +25,7 @@ const authenticateToken = require("../middlewares/authenticateToken");
  *       properties:
  *          id:
  *           type: string
- *           description: unique id for admin
+ *           description: Self assigned unique id for admin
  *          fullName:
  *           type: string
  *           description: Full name of admin
@@ -40,13 +40,6 @@ const authenticateToken = require("../middlewares/authenticateToken");
  *         fullName:  Mike Kelly
  *         email: mike.kelly@gmail.com
  *         password: 1234567ABC
- */
-
-/**
- * @swagger
- * tags:
- *   name: Admin
- *   description: Admin managing API
  */
 
 // Routes
@@ -80,7 +73,7 @@ router.get("/", [authenticateToken.verifyToken], adminController.getAllAdmins);
  *         schema:
  *           type: string
  *         required: true
- *         description: Admin unique id
+ *         description: unique id for admin
  *     responses:
  *       200:
  *         description: Fetches admin object
@@ -125,7 +118,7 @@ router.post(
 );
 /**
  * @swagger
- * //update-admin-info/{adminId):
+ * /update-admin-info/{adminId):
  *  put:
  *    summary: Update admin by id
  *    tags: [Admins]
