@@ -6,6 +6,7 @@ const swaggerJsDoc = require("swagger-jsdoc");
 const userRoutes = require("./routes/userRoutes");
 const adminRoutes = require("./routes/adminRoutes");
 const courseRoutes = require("./routes/courseRoutes");
+const gradeRoutes = require("./routes/gradeRoutes");
 
 const app = express();
 const port = 8082;
@@ -21,6 +22,8 @@ app.get("/", (req, res) => {
 app.use("/api/users", userRoutes);
 app.use("/api/admins", adminRoutes);
 app.use("/api/courses", courseRoutes);
+app.use("/api/grades", gradeRoutes);
+
 // SWAGGER DOCS
 const options = {
   definition: {

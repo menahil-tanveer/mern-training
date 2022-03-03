@@ -14,30 +14,41 @@ const authenticateToken = require("../middlewares/authenticateToken");
  * @swagger
  * components:
  *   schemas:
- *     User:
+ *     Users:
  *       type: object
  *       required:
  *         - userId
  *         - firstName
  *         - lastName
  *         - email
+ *         - secondaryEmail
  *         - password
  *       properties:
  *          userId:
  *           type: string
- *           description: Unique id for users
+ *           description: Self assigned unique id for user
  *          firstName:
  *           type: string
- *           description: First name of user. Must be at least 2 charcters long
+ *           description: First name of user
  *          lastName:
  *           type: string
- *           description: Last name of user. Must be at least 2 charcters long
+ *           description: Last name of user
  *          email:
+ *           type: string
+ *           description: Valid email address
+ *          secondaryEmail:
  *           type: string
  *           description: Valid email address
  *          password:
  *           type: string
  *           description: 8 character password with at least one digit
+ *       example:
+ *         userId: SP22-BCS-001
+ *         firstName:  Mike
+ *         lastName:   Kelly
+ *         email: mike.kelly@gmail.com
+ *         secondaryEmail: mike.kelly123@gmail.com
+ *         password: 1234567ABC
  */
 
 // Routes
@@ -55,7 +66,7 @@ const authenticateToken = require("../middlewares/authenticateToken");
  *             schema:
  *               type: array
  *               items:
- *                 $ref: '#/components/schemas/User'
+ *                 $ref: '#/components/schemas/Users'
  */
 router.get(
   "/get-all-users",
@@ -65,7 +76,28 @@ router.get(
 router.get("/get-all-students", userController.getAllStudents);
 router.get("/get-all-teachers", userController.getAllTeachers);
 router.get("/get-user/:userId", userController.getUserById);
-
+/**
+ * @swagger
+ * /api/admins/create-new-user:
+ *   post:
+ *     summary: Creates a new user
+ *     tags: [Users]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Users'
+ *     responses:
+ *       200:
+ *         description: User successfully created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Users'
+ *       500:
+ *         description: Internal server error
+ */
 router.post(
   "/create-new-user",
   [userMiddleware.validateUser],
@@ -75,7 +107,7 @@ router.post("/assign-course", userController.assignCourse),
   /**
    * @swagger
    * /api/users/{userId}:
-   *  patch:
+   *  put:
    *    summary: Update user by userId
    *    tags: [Users]
    *    parameters:
@@ -90,14 +122,14 @@ router.post("/assign-course", userController.assignCourse),
    *      content:
    *        application/json:
    *          schema:
-   *            $ref: '#/components/schemas/Admin'
+   *            $ref: '#/components/schemas/Users'
    *    responses:
    *      200:
    *        description: User updated successfully
    *        content:
    *          application/json:
    *            schema:
-   *              $ref: '#/components/schemas/Admin'
+   *              $ref: '#/components/schemas/Users'
    *      404:
    *        description: User not found
    *      500:

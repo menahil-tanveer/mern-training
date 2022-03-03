@@ -122,7 +122,7 @@ router.post(
 /**
  * @swagger
  * /api/course/{courseId}:
- *  patch:
+ *  put:
  *    summary: Update specific course using courseId
  *    tags: [Courses]
  *    parameters:
