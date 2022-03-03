@@ -25,7 +25,7 @@ const authenticateToken = require("../middlewares/authenticateToken");
  *       properties:
  *          userId:
  *           type: string
- *           description: Self assigned unique id for user
+ *           description: Unique id for users
  *          firstName:
  *           type: string
  *           description: First name of user. Must be at least 2 charcters long
