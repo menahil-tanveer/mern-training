@@ -6,12 +6,14 @@ const Joi = require("joi");
  * @description This method is responsible for validating student input data
  */
 function validateUser(req, res, next) {
-  const { firstName, lastName, email, password, userId, role } = req.body;
+  const { firstName, lastName, email, secondaryEmail, password, userId, role } =
+    req.body;
   let payload = {
     userId: userId ? userId.toLowerCase().trim() : null,
     firstName: firstName ? firstName.toLowerCase().trim() : null,
     lastName: lastName ? lastName.toLowerCase().trim() : null,
     email: email ? email.toLowerCase().trim() : null,
+    secondaryEmail: secondaryEmail ? secondaryEmail.toLowerCase().trim() : null,
     password: password ? password.trim() : null,
     role: role ? role.trim() : null,
   };
@@ -28,6 +30,9 @@ function validateUser(req, res, next) {
         .max(50)
         .required(),
       email: Joi.string()
+        .regex(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
+        .required(),
+      secondaryEmail: Joi.string()
         .regex(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
         .required(),
       password: Joi.string()

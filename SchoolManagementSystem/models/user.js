@@ -63,6 +63,18 @@ module.exports = (sequelize, DataTypes) => {
           this.setDataValue("email", value.toLowerCase().trim());
         },
       },
+      secondaryEmail: {
+        type: DataTypes.STRING,
+        unique: true,
+        len: [2, 50],
+        validate: {
+          notEmpty: true,
+          isEmail: true,
+        },
+        set(value) {
+          this.setDataValue("secondaryEmail", value.toLowerCase().trim());
+        },
+      },
       password: {
         type: DataTypes.STRING,
         len: [8, 64],

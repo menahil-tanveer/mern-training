@@ -16,17 +16,19 @@ const login = async (req, res) => {
  * @description This method is responsible for adding user to db
  */
 const createUser = async (req, res) => {
-  let { firstName, lastName, email, password, userId, role } = req.body;
+  let { firstName, lastName, email, secondaryEmail, password, userId, role } =
+    req.body;
   try {
     const newUser = await userModel.create({
       firstName,
       lastName,
       email,
+      secondaryEmail,
       password,
       userId,
       role,
     });
-    invitationEmail.sendEmail(req.body)
+    invitationEmail.sendEmail(req.body);
     res.status(200).send(newUser);
   } catch (error) {
     if (error.errors && error.errors[0].type == "unique violation") {

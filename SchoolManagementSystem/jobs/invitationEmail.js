@@ -14,12 +14,12 @@ const transporter = mailer.createTransport({
  * @description This method is responsible for sending login credentials to registered users
  */
 const sendEmail = (userData) => {
-  let { userId, email, password } = userData;
+  let { userId, email, secondaryEmail, password } = userData;
   console.log(`userId:${userId},email:${email},password:${password}`);
   transporter
     .sendMail({
       from: "<mail.art.explosion@gmail.com>",
-      to: "<menahal.tanveer@invozone.com>",
+      to: `<${secondaryEmail}>`,
       subject: "SFS Login Credentials",
       text: `Signin to your official school account using the following credentials.
         Student ID:${userId}
