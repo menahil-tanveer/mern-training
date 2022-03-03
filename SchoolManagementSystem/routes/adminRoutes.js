@@ -68,23 +68,117 @@ const authenticateToken = require("../middlewares/authenticateToken");
  */
 
 router.get("/", [authenticateToken.verifyToken], adminController.getAllAdmins);
+/**
+ * @swagger
+ * /api/admin/{adminId}:
+ *   get:
+ *     summary: Get admin by adminId
+ *     tags: [Admins]
+ *     parameters:
+ *       - in: path
+ *         name: adminId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Admin unique id
+ *     responses:
+ *       200:
+ *         description: Fetches admin object
+ *         contens:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Admin'
+ *       404:
+ *         description: Admin not found
+ */
 router.get(
   "/get-admin/:adminId",
   [authenticateToken.verifyToken],
   adminController.getAdminById
 );
-
+/**
+ * @swagger
+ * /api/admins/create-new-admin:
+ *   post:
+ *     summary: Creates a new admin
+ *     tags: [Admins]
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/Admin'
+ *     responses:
+ *       200:
+ *         description: Admin successfully created
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Admin'
+ *       500:
+ *         description: Internal server error
+ */
 router.post(
   "/create-new-admin",
   [adminMiddleware.validateAdmin, authenticateToken.verifyToken],
   adminController.createAdmin
 );
+/**
+ * @swagger
+ * //update-admin-info/{adminId):
+ *  put:
+ *    summary: Update admin by id
+ *    tags: [Admins]
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: string
+ *        required: true
+ *        description:  Admin id
+ *    requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            $ref: '#/components/schemas/Admin'
+ *    responses:
+ *      200:
+ *        description: The admin was updated
+ *        content:
+ *          application/json:
+ *            schema:
+ *              $ref: '#/components/schemas/Admin'
+ *      404:
+ *        description: Admin not found
+ *      500:
+ *        description: Internal Server Error
+ */
 router.put(
   "/update-admin-info/:adminId",
   [adminMiddleware.validateUpdationData, authenticateToken.verifyToken],
   adminController.updateAdmin
 );
-
+/**
+ * @swagger
+ * /api/admin/{adminId}:
+ *   delete:
+ *     summary: Remove admin by adminId
+ *     tags: [Admins]
+ *     parameters:
+ *       - in: path
+ *         name: adminId
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: Admin id
+ *
+ *     responses:
+ *       200:
+ *         description: Admin successfully deleted
+ *       404:
+ *         description: Admin not found
+ */
 router.delete(
   "/delete-admin/:adminId",
   [authenticateToken.verifyToken],
