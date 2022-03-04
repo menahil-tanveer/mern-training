@@ -85,7 +85,7 @@ const getAllStudents = async (req, res) => {
   try {
     const users = await userModel.findAll({
       where: {
-        isTeacher: "FALSE",
+        role: "student",
       },
     });
     res.status(200).send(users);
@@ -102,7 +102,7 @@ const getAllTeachers = async (req, res) => {
   try {
     const users = await userModel.findAll({
       where: {
-        isTeacher: "TRUE",
+        role: "teacher",
       },
     });
     res.status(200).send(users);

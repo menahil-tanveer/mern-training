@@ -100,7 +100,7 @@ router.get("/get-user/:userId", userController.getUserById);
  */
 router.post(
   "/create-new-user",
-  [userMiddleware.validateUser],
+  [authenticateToken.verifyToken, userMiddleware.validateUser],
   userController.createUser
 );
 router.post("/assign-course", userController.assignCourse),
@@ -137,7 +137,7 @@ router.post("/assign-course", userController.assignCourse),
    */
   router.put(
     "/update-user/:userId",
-    [userMiddleware.validateUpdationData],
+    [authenticateToken.verifyToken, userMiddleware.validateUpdationData],
     userController.updateUser
   );
 /**
@@ -160,7 +160,11 @@ router.post("/assign-course", userController.assignCourse),
  *       404:
  *         description: User not found
  */
-router.delete("/delete-user/:userId", userController.deleteUser);
+router.delete(
+  "/delete-user/:userId",
+  [authenticateToken.verifyToken],
+  userController.deleteUser
+);
 router.post("/login", userController.login);
 
 module.exports = router;

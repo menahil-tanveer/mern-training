@@ -64,7 +64,7 @@ const authenticateToken = require("../middlewares/authenticateToken");
  */
 router.post(
   "/assign-grade",
-  [gradeMiddleware.validate, authenticateToken.verifyToken],
+  [authenticateToken.verifyToken, gradeMiddleware.validate],
   gradeController.assignGrade
 );
 /**

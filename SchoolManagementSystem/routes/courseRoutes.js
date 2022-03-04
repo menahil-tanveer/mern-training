@@ -116,7 +116,7 @@ router.get(
  */
 router.post(
   "/create-new-course",
-  [courseMiddleware.validateCourse, authenticateToken.verifyToken],
+  [authenticateToken.verifyToken, courseMiddleware.validateCourse],
   courseController.createCourse
 );
 /**
@@ -152,7 +152,7 @@ router.post(
  */
 router.put(
   "/update-course/:courseId",
-  [courseMiddleware.validateUpdationData, authenticateToken.verifyToken],
+  [authenticateToken.verifyToken, courseMiddleware.validateUpdationData],
   courseController.updateCourse
 );
 /**

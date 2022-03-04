@@ -113,7 +113,7 @@ router.get(
  */
 router.post(
   "/create-new-admin",
-  [adminMiddleware.validateAdmin, authenticateToken.verifyToken],
+  [authenticateToken.verifyToken, adminMiddleware.validateAdmin],
   adminController.createAdmin
 );
 /**
@@ -149,7 +149,7 @@ router.post(
  */
 router.put(
   "/update-admin-info/:adminId",
-  [adminMiddleware.validateUpdationData, authenticateToken.verifyToken],
+  [authenticateToken.verifyToken, adminMiddleware.validateUpdationData],
   adminController.updateAdmin
 );
 /**
