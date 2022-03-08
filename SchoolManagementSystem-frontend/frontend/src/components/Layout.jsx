@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import Signup from "./Forms/Signup";
+import Login from "./Forms/Login";
 class BaseLayout extends Component {
   state = {};
   render() {
     return (
       <React.Fragment>
-        <Signup />
+        <Login />
       </React.Fragment>
     );
   }
