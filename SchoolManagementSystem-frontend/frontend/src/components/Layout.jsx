@@ -1,14 +1,11 @@
 import React, { Component } from "react";
-import Header from "./Header";
-import Sidebar from "./Sidebar";
-
+import Signup from "./Forms/Signup";
 class BaseLayout extends Component {
   state = {};
   render() {
     return (
       <React.Fragment>
-        <Header />
-        <Sidebar />
+        <Signup />
       </React.Fragment>
     );
   }
