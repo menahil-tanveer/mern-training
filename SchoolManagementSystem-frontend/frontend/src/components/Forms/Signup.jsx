@@ -12,7 +12,7 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import IconButton from "@material-ui/core/IconButton";
 import CopyrightIcon from "@material-ui/icons/Copyright";
-
+import { Link } from "react-router-dom";
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
@@ -71,7 +71,6 @@ export default function SimpleCard() {
       <Card
         style={{
           width: "400px",
-          height: "500px",
           padding: "34px",
           boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
         }}

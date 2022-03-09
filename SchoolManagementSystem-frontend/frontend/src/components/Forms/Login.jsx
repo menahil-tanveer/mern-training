@@ -12,6 +12,7 @@ import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import IconButton from "@material-ui/core/IconButton";
 import CopyrightIcon from "@material-ui/icons/Copyright";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -116,6 +117,17 @@ export default function SimpleCard() {
               }}
             />
           </div>
+          <Box
+            style={{ width: "100%" }}
+            className={classes.pos}
+            display="flex"
+            alignItems="center"
+          >
+            <Box flexGrow={1}>
+              Don't have an account? <Link to="/sign-up">Sign up</Link>
+            </Box>
+            {/* <Box>hola</Box> */}
+          </Box>
         </CardContent>
         <CardActions>
           <Box
