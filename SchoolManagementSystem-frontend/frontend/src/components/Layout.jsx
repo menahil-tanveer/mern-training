@@ -13,6 +13,8 @@ class BaseLayout extends Component {
     // i.e. component is in the DOM
     console.log("BaseLayout -  mounted");
   }
+  // The entire app reloads (all components are rendered again)
+  //  but only the virual dom is updated not the actual dom
   componentDidUpdate() {
     // when props or state is updated
     console.log("BaseLayout -  updated");
