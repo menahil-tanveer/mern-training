@@ -17,16 +17,36 @@
  */
 import MoviePage from "./context/MoviePage";
 import React, { Component } from "react";
-import userContext from "./context/userContext";
+import UserContext from "./context/UserContext";
+import CartContext from "./context/CartContext";
 class App extends Component {
+  handleLoggedIn = (username) => {
+    console.log("getting user", username);
+    const user = { name: "Menahil" };
+    this.setState({ currentUser: user });
+  };
   state = {
-    currentUser: { name: "Mi" },
+    currentUser: {
+      name: null,
+    },
   };
   render() {
     return (
-      <userContext.Provider value={this.state.currentUser.name}>
-        <MoviePage />
-      </userContext.Provider>
+      // This is how multiple contexts are implemented, now cart context will be available in
+      // the child components of the app component
+      //value is a default prop for provider, it will pass the context down the component tree
+      <CartContext.Provider value={{ cart: ["element"] }}>
+        <UserContext.Provider
+          value={{
+            currentUser: this.state.currentUser,
+            onLoggedIn: this.handleLoggedIn,
+          }}
+        >
+          <div>
+            <MoviePage />
+          </div>
+        </UserContext.Provider>
+      </CartContext.Provider>
     );
   }
 }
