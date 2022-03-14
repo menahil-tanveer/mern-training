@@ -2,6 +2,7 @@ import { createStore, applyMiddleware } from "redux";
 import reducer from "./reducer";
 import logger from "./store/middleware/logger";
 import displayToast from "./store/middleware/displayToast";
+import api from "./store/middleware/api";
 
 // import func from "./store/middleware/func";
 
@@ -14,7 +15,7 @@ import displayToast from "./store/middleware/displayToast";
 import { configureStore, getDefaultMiddleware } from "@reduxjs/toolkit";
 const store = configureStore({
   reducer,
-  middleware: [...getDefaultMiddleware(), logger("console"), displayToast], //note: the order of middlewares matter & getDefaultMiddleware gets an array of all the middlewares && spread operator is used to copy them
+  middleware: [...getDefaultMiddleware(), logger("console"), displayToast, api], //note: the order of middlewares matter & getDefaultMiddleware gets an array of all the middlewares && spread operator is used to copy them
 });
 
 // passing a function in dispatch

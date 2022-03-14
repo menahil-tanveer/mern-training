@@ -1,3 +1,4 @@
+import { createAction } from "@reduxjs/toolkit";
 import * as actions from "./actionTypes";
 // export function bugAdded(description) {
 //   return {
@@ -22,3 +23,6 @@ export const bugResolved = (id) => ({
     id,
   },
 });
+export const apiCallBegan = createAction("api/callBegan");
+export const apiCallSuccess = createAction("api/callSuccess");
+export const apiCallFailed = createAction("api/callFailed");
