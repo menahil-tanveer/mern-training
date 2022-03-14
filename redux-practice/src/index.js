@@ -8,6 +8,5 @@ import store from "./store";
 store.dispatch(bugAdded("bug 2"));
 // resolve
 store.dispatch(bugResolved(0));
-store.dispatch(errorOccurred());
 console.log("store:::", store);
 console.log("state:::", store.getState());
