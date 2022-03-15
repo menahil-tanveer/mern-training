@@ -1,5 +1,5 @@
 // import { createStore } from "redux";
-import reducer from "./bugs.js";
+import reducer from "./bugs";
 // import logger from "./store/middleware/logger";
 // import displayToast from "./store/middleware/displayToast";
 // import api from "./store/middleware/api";
@@ -41,7 +41,5 @@ import reducer from "./bugs.js";
 // Here onwards we will use redux toolkit.
 import { configureStore } from "@reduxjs/toolkit";
 export default function () {
-  return configureStore({
-    reducer,
-  });
+  return configureStore({ reducer });
 }

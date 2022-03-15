@@ -14,9 +14,9 @@ store.dispatch(bugAdded({ description: "bug 3" }));
 store.dispatch(bugResolved({ id: 1 }));
 console.log("store:", store);
 console.log("state:", store.getState());
-store.dispatch(
-  actions.apiCallBegan({
-    url: "/bugs",
-    onSucces: "bugsReceived",
-  })
-);
+// store.dispatch(
+//   actions.apiCallBegan({
+//     url: "/bugs",
+//     onSucces: "bugsReceived",
+//   })
+// );
