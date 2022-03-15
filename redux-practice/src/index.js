@@ -1,4 +1,4 @@
-import { bugAdded, bugResolved, errorOccurred } from "./actions";
+import { bugAdded, bugResolved } from "./actions";
 import store from "./store";
 import * as actions from "./actions";
 // if written between dispatching actions, we will not be notified about the second action
@@ -15,6 +15,5 @@ store.dispatch(
   actions.apiCallBegan({
     url: "/bugs",
     onSucces: "bugsReceived",
-    onError: actions.apiCallFailed.type,
   })
 );

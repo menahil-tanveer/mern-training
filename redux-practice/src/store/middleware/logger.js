@@ -1,4 +1,3 @@
-console.log("logger!!");
 /**
  *
  * @param {*} store

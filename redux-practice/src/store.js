@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware } from "redux";
+// import { createStore, applyMiddleware } from "redux";
 import reducer from "./reducer";
 import logger from "./store/middleware/logger";
 import displayToast from "./store/middleware/displayToast";
@@ -27,7 +27,7 @@ store.dispatch((dispatch, getState) => {
   console.log("getState", getState());
   // If promise is rejected, dispatch that
 });
-console.log("dispatch error action::");
+// console.log("dispatch error action::");
 store.dispatch({
   type: "error",
   payload: {
