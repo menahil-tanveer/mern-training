@@ -1,14 +1,15 @@
 import axios from "axios";
 import * as actions from "../../actions";
-console.log("API !!!");
 const api =
   ({ dispatch }) =>
   (next) =>
   async (action) => {
     if (action.type !== actions.apiCallBegan.type) return next(action);
     console.log("TYPE: apiCallBegan", actions.apiCallBegan.type);
-    next(action); // if not placed here, this action will be swallowed and redux will move onto the actions defined below this
-    const { url, method, data, onSucces, onError } = action;
+    // next(action); // if not placed here, this action will be swallowed and redux will move onto the actions defined below this
+    const { url, method, data, onStart, onSucces, onError } = action;
+    if (onStart) dispatch({ type: onStart });
+    next(action);
     try {
       const response = await axios.request({
         baseURL: "http://localhost:8082/api/users/get-all-students",
