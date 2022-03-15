@@ -1,5 +1,5 @@
 // import { createStore } from "redux";
-import reducer from "./bugs";
+import reducer from "./reducer";
 // import logger from "./store/middleware/logger";
 // import displayToast from "./store/middleware/displayToast";
 // import api from "./store/middleware/api";
