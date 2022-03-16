@@ -1,4 +1,4 @@
-import { bugAdded, bugResolved } from "./store/bugs";
+import { bugAdded, bugResolved, getUnresolvedBugs } from "./store/bugs";
 import { projectAdded } from "./store/projects";
 import configureStore from "./store/configureStore";
 // import * as actions from "./store/bugs";
@@ -17,6 +17,8 @@ store.dispatch(bugAdded({ description: "bug 3" }));
 store.dispatch(bugResolved({ id: 1 }));
 console.log("store:", store);
 console.log("state:", store.getState());
+const unresolvedBugs = getUnresolvedBugs(store.getState());
+console.log("unresolvedBugs", unresolvedBugs);
 // store.dispatch(
 //   actions.apiCallBegan({
 //     url: "/bugs",
