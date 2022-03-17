@@ -13,5 +13,5 @@ const func =
   };
 export default func;
 
-// NOTE: this middleware is present by default in redux toolkit. it is called thunk. You can use that instead of this in
-// your store
+// NOTE: this middleware is present by default in redux toolkit. It is called thunk.
+// You can use that instead of this, in your store

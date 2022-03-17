@@ -1,32 +1,33 @@
 import axios from "axios";
-import * as actions from "../../actions";
+import { usersAdded } from "../users";
 const api =
-  ({ dispatch }) =>
+  ({ dispatch, getState }) =>
   (next) =>
   async (action) => {
-    if (action.type !== actions.apiCallBegan.type) return next(action);
-    console.log("TYPE: apiCallBegan", actions.apiCallBegan.type);
-    // next(action); // if not placed here, this action will be swallowed and redux will move onto the actions defined below this
-    const { url, method, data, onStart, onSucces, onError } = action;
-    if (onStart) dispatch({ type: onStart });
-    next(action);
+    if (action.type !== "apiCallBegan") return next(action);
+    next(action); // if not placed here, this action will be swallowed and redux will move onto the actions defined below this
+    // const { url, onSuccess, onError } = action;
+    // if (onStart) dispatch({ type: onStart });
+    // next(action);
     try {
       const response = await axios.request({
-        baseURL: "http://localhost:8082/api/users/get-all-students",
-        url,
-        method,
-        data,
+        baseURL: "https://jsonplaceholder.typicode.com/users",
+        // data, // optional
       });
       //general
-      console.log("dispatch success action");
-      dispatch(actions.apiCallSuccess(response.data));
+      // dispatch(action.payload.apiCallSuccess(response.data));
       // sepcific
-      if (onSucces) dispatch({ type: onSucces, payload: response.data });
+      console.log("onSuccess");
+      if (action.payload.onSuccess) dispatch(usersAdded(response.data));
+      //   dispatch({ type: action.payload.onSuccess, payload: response.data });
+      console.log("users", response.data);
+      next(action);
     } catch (error) {
       // general error message
-      dispatch(actions.apiCallFailed(error));
+      //   dispatch(action.payload.apiCallFailed(error));
       // specific error message
-      if (onError) dispatch({ type: onError, payload: error });
+      if (action.payload.onError)
+        dispatch({ type: action.payload.onError, payload: error });
     }
   };
 export default api;

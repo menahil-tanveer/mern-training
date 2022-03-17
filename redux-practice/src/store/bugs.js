@@ -18,23 +18,34 @@ const slice = createSlice({
         resolved: false,
       });
     },
+    bugAssigned: (state, action) => {
+      const { bugId, userId } = action.payload;
+      const index = state.findIndex((bug) => bug.id === bugId);
+      // set user id property in bugs array
+      state[index].userId = userId;
+    },
     bugResolved: (state, action) => {
       const index = state.findIndex((bug) => bug.id === action.payload.id);
       state[index].resolved = true;
     },
   },
 });
-export const { bugAdded, bugResolved } = slice.actions;
+export const { bugAdded, bugResolved, bugAssigned } = slice.actions;
 export default slice.reducer;
-// Selectors
+
+// SELECTORS
 // This method is a bit expensive to use in apps cause it takes almost 0.5 seconds to execute even when
 // the list of bugs has not chnaged.
 // therefore we use memoization method instead. For that install reselect pckg
 
 // export const getUnresolvedBugsOld = (state) =>
-//   state.entities.bugs.filter((bug) => !bug.resolved);
+// state.entities.bugs.filter((bug) => !bug.resolved);
 
 export const getUnresolvedBugs = createSelector(
   (state) => state.entities.bugs,
   (bugs) => bugs.filter((bug) => !bug.resolved)
 );
+export const getBugByUserId = userId => createSelector(
+  (state) => state.entities.bugs,
+  (bugs) => bugs.filter((bug) => bug.userId == userId)
+)
