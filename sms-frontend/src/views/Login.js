@@ -61,7 +61,9 @@ export default function LoginCard() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-
+  const login = () => {
+    console.log("login!");
+  };
   return (
     <Box
       display="flex"
@@ -145,6 +147,7 @@ export default function LoginCard() {
               disableElevation
               color="secondary"
               size="large"
+              onClick={login}
             >
               Login
             </Button>
