@@ -4,7 +4,10 @@
  * Purpose: This component is responsible for registering super admin
  */
 import React, { useState } from "react";
-import { signup } from "../services/api";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { signUp } from "../store/middleware/auth";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -44,7 +47,9 @@ const useStyles = makeStyles({
 });
 
 export default function SignupForm() {
+  const dispatch = useDispatch();
   const classes = useStyles();
+  const navigate = useNavigate();
   //   const bull = <span className={classes.bullet}>•</span>;
   const [values, setValues] = useState({
     id: "",
@@ -68,7 +73,6 @@ export default function SignupForm() {
   const handleChange = (prop) => (event) => {
     setValues({ ...values, [prop]: event.target.value });
     validate(prop, event.target.value);
-    // console.log("...values", values);
   };
 
   const handleClickShowPassword = () => {
@@ -123,17 +127,20 @@ export default function SignupForm() {
         break;
     }
   };
-  const resetValidations = () => {
-    setValues({
-      ...values,
-      error: {
-        id: "",
-        fullName: "",
-        email: "",
-        password: "",
-      },
-    });
-  };
+  useEffect(() => {
+    document.title = 'Sign Up';
+  });
+  // const resetValidations = () => {
+  //   setValues({
+  //     ...values,
+  //     error: {
+  //       id: "",
+  //       fullName: "",
+  //       email: "",
+  //       password: "",
+  //     },
+  //   });
+  // };
   const submit = (event) => {
     event.preventDefault();
     const { id, fullName, email, password } = values;
@@ -143,10 +150,12 @@ export default function SignupForm() {
       email,
       password,
     };
-    signup(payload)
+    dispatch(signUp(payload))
       .then((res) => {
         setValues({ ...values, id: "", fullName: "", email: "", password: "" });
         openSnackbar("Admin created successfully!");
+        navigate("/admin-dashboard", { replace: true });
+        // history.push("/admin-dashboard");
       })
       .catch((error) => {
         console.log("error is??????", error);
@@ -155,7 +164,6 @@ export default function SignupForm() {
   };
   const openSnackbar = (message) => {
     setValues({ ...values, snackbar: true, snackbarMessage: message });
-    console.log("values.snackbar", values.snackbar);
   };
   return (
     <React.Fragment>

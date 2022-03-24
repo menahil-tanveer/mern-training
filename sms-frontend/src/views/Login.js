@@ -4,6 +4,11 @@
  * Purpose: This component is responsible for user authentication
  */
 import React from "react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { adminLogin, userLogin } from "../store/middleware/auth";
+
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -40,14 +45,18 @@ const useStyles = makeStyles({
     marginBottom: 26,
   },
 });
-
 export default function LoginCard() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  useEffect(() => {
+    document.title = "Login";
+  });
   const classes = useStyles();
-  //   const bull = <span className={classes.bullet}>•</span>;
   const [values, setValues] = React.useState({
-    email: "",
+    userId: "",
     password: "",
     showPassword: false,
+    role: "admin",
   });
 
   const handleChange = (prop) => (event) => {
@@ -61,9 +70,31 @@ export default function LoginCard() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  const login = () => {
-    console.log("login!");
+  const resetForm = () => {
+    setValues({ ...values, userId: "", password: "", showPassword: false });
   };
+  const login = (event) => {
+    console.log("login!");
+    event.preventDefault();
+    const { userId, password } = values;
+    let payload = {
+      password,
+    };
+    if (values.role === "admin") {
+      payload.adminId = userId;
+      dispatch(adminLogin(payload)).catch((error) => {
+        console.log("Admin Login Error::", error);
+      });
+    } else {
+      payload.userId = userId;
+      console.log("user payload", payload);
+      dispatch(userLogin(payload)).catch((error) => {
+        console.log("User Login Error::", error);
+      });
+    }
+    // setValues({ ...values, userId: "", password: "" });
+  };
+
   return (
     <Box
       display="flex"
@@ -83,6 +114,7 @@ export default function LoginCard() {
         }}
       >
         <CardContent style={{ height: "280px" }}>
+          {/* CARD TITLE */}
           <Box className={classes.pos} display="flex" justifyContent="center">
             <Typography
               className={classes.title}
@@ -90,21 +122,24 @@ export default function LoginCard() {
               gutterBottom
               component="h2"
             >
-              Login
+              {values.role === "admin" && "Admin Login"}
+              {values.role !== "admin" && "Login"}
             </Typography>
           </Box>
           <div className={classes.textField}>
             <TextField
-              id="user-email"
-              label="Email"
-              type="email"
+              id="user-id"
+              label="Id"
+              onChange={handleChange("userId")}
+              value={values.userId}
+              type="text"
               size="small"
               fullWidth
             />
           </div>
           <div>
             <TextField
-              id="admin-password"
+              id="password"
               label="Password"
               size="small"
               fullWidth
@@ -124,14 +159,54 @@ export default function LoginCard() {
               }}
             />
           </div>
-          <Box display="flex" justifyContent="end" style={{ width: "100%" }}>
+          <Box display="flex" style={{ width: "100%" }}>
             <Box
               style={{ marginTop: "16px", color: "grey" }}
               fontSize={12}
               fontStyle="normal"
+              justifyItems="start"
             >
-              Don't have an account? <Link to="/sign-up">Sign up</Link>
+              {values.role !== "user" && (
+                <div>
+                  Not an admin?
+                  <a
+                    style={{ marginLeft: "8px" }}
+                    onClick={() => {
+                      values.role = "user";
+                      resetForm();
+                    }}
+                    href="#"
+                  >
+                    Login here
+                  </a>
+                </div>
+              )}
+              {values.role === "user" && (
+                <div>
+                  For admin login
+                  <a
+                    style={{ marginLeft: "8px" }}
+                    onClick={() => {
+                      values.role = "admin";
+                      resetForm();
+                    }}
+                    href="#"
+                  >
+                    click here
+                  </a>
+                </div>
+              )}
             </Box>
+            {/* <Box
+              style={{ marginTop: "16px", color: "grey" }}
+              fontSize={12}
+              fontStyle="normal"
+              flexGrow={1}
+              display="flex"
+              justifyContent="end"
+            >
+              <Link to="/sign-up">Forgot password ?</Link>
+            </Box> */}
           </Box>
         </CardContent>
         <CardActions>

@@ -17,7 +17,7 @@ class Router extends Component {
       <React.Fragment>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Home />}></Route>
+            <Route title="Dashboard" path="/admin-dashboard" element={<Home />}></Route>
             <Route path="/sign-up" element={<Signup />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="*" element={<h1>404</h1>}></Route>
