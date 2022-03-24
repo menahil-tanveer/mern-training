@@ -143,13 +143,13 @@ export default function SignupForm() {
       email,
       password,
     };
-    console.log("payload:::", payload);
     signup(payload)
       .then((res) => {
         setValues({ ...values, id: "", fullName: "", email: "", password: "" });
         openSnackbar("Admin created successfully!");
       })
       .catch((error) => {
+        console.log("error is??????", error);
         openSnackbar("Err! Something went wrong");
       });
   };

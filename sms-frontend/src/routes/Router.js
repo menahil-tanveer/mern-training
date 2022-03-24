@@ -20,8 +20,7 @@ class Router extends Component {
             <Route path="/" element={<Home />}></Route>
             <Route path="/sign-up" element={<Signup />}></Route>
             <Route path="/login" element={<Login />}></Route>
-            <Route path="/user-dashboard" element={<Login />}></Route>
-            <Route path="/admin-dashboard" element={<Login />}></Route>
+            <Route path="*" element={<h1>404</h1>}></Route>
           </Routes>
         </BrowserRouter>
       </React.Fragment>

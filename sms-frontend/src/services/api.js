@@ -20,17 +20,13 @@ const BASE_URL = "http://localhost:8082/api/";
 
 export const signup = (payload) =>
   new Promise((resolve, reject) => {
-    console.log("api payload", payload);
     try {
       axios.post(`${BASE_URL}admins/create-new-admin`, payload).then((res) => {
         console.log("res:::", res);
         resolve();
       });
     } catch (error) {
-      // General error message
+      console.log("ello!", error);
       reject(error);
     }
-
-    // when successful
-    // when error
   });
