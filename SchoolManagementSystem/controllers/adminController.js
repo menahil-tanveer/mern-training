@@ -1,4 +1,8 @@
 const adminModel = require("../models").Admin;
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
+dotenv.config();
 // ---------------------------------------------- CREATE METHOD----------------------------------------------------
 /**
  *
@@ -120,10 +124,37 @@ const deleteAdmin = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+const adminLogin = async (req, res) => {
+  try {
+    console.log("process.env.TOKEN_SECRET", process.env.TOKEN_SECRET);
+    const admin = await adminModel.findOne({
+      where: { adminId: req.body.adminId },
+    });
+    if (admin && bcrypt.compareSync(req.body.password, admin.password)) {
+      // find admin and verify password
+      const token = jwt.sign(
+        // authentication successful
+        { id: admin.adminId, adminId: req.body.adminId },
+        process.env.TOKEN_SECRET,
+        {
+          expiresIn: "2h",
+        }
+      );
+      // save admin token
+      admin.update({
+        token,
+      });
+      res.status(200).json({ admin });
+    } else res.status(400).send("Invalid Credentials");
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+};
 module.exports = {
   getAllAdmins,
   getAdminById,
   createAdmin,
   updateAdmin,
   deleteAdmin,
+  adminLogin,
 };

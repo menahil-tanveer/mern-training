@@ -1,12 +1,38 @@
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcrypt");
+const dotenv = require("dotenv");
 const userModel = require("../models").User;
 const courseModel = require("../models").Course;
 const invitationEmail = require("../jobs/invitationEmail");
-
+dotenv.config();
 const login = async (req, res) => {
-  jwt.sign({}, "secretKey", (err, token) => {
-    res.json({ token: token });
-  });
+  // jwt.sign({}, "secretKey", (err, token) => {
+  //   res.json({ token: token });
+  // });
+  try {
+    console.log("process.env.TOKEN_SECRET",process.env.TOKEN_SECRET)
+    const user = await userModel.findOne({
+      where: { userId: req.body.userId },
+    });
+    if (user && bcrypt.compareSync(req.body.password, user.password)) {
+      // check user found and verify password
+      const token = jwt.sign(
+        // authentication successful
+        { id: user.userId, userId: req.body.userId },
+        process.env.TOKEN_SECRET,
+        {
+          expiresIn: "2h",
+        }
+      );
+      // save user token
+      user.update({
+        token,
+      });
+      res.status(200).json({ user });
+    } else res.status(400).send("Invalid Credentials");
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
 };
 // ---------------------------------------------- CREATE METHODS----------------------------------------------------
 /**
