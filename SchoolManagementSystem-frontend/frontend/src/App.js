@@ -9,7 +9,7 @@ function App() {
     <div className="App">
       <Layout />
       <Routes>
-        <Route path="/login" element={<Login />}></Route>
+        <Route path="/" element={<Login />}></Route>
         <Route path="/sign-up" element={<SignUp />}></Route>
       </Routes>
     </div>
@@ -17,6 +17,3 @@ function App() {
 }
 
 export default App;
-
-
-

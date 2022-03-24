@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
+import { apiCallBegan } from "./api";
 let lastId = 0;
 /**
  * @description createSlice method replaces createAction & createReducer methods
@@ -9,24 +10,31 @@ let lastId = 0;
  */
 const slice = createSlice({
   name: "bugs",
-  initialState: [],
+  initialState: {
+    list: [],
+    loading: false,
+    lastFetch: null,
+  },
   reducers: {
+    // name: bugs/bugAdded
     bugAdded: (state, action) => {
-      state.push({
+      state.list.push({
         id: lastId++,
         description: action.payload.description,
         resolved: false,
       });
     },
+    // name: bugs/bugAssigned
     bugAssigned: (state, action) => {
       const { bugId, userId } = action.payload;
-      const index = state.findIndex((bug) => bug.id === bugId);
+      const index = state.list.findIndex((bug) => bug.id === bugId);
       // set user id property in bugs array
-      state[index].userId = userId;
+      state.list[index].userId = userId;
     },
+    // name: bugs/bugResolved
     bugResolved: (state, action) => {
-      const index = state.findIndex((bug) => bug.id === action.payload.id);
-      state[index].resolved = true;
+      const index = state.list.findIndex((bug) => bug.id === action.payload.id);
+      state.list[index].resolved = true;
     },
   },
 });
@@ -43,9 +51,10 @@ export default slice.reducer;
 
 export const getUnresolvedBugs = createSelector(
   (state) => state.entities.bugs,
-  (bugs) => bugs.filter((bug) => !bug.resolved)
+  (bugs) => bugs.list.filter((bug) => !bug.resolved)
 );
-export const getBugByUserId = userId => createSelector(
-  (state) => state.entities.bugs,
-  (bugs) => bugs.filter((bug) => bug.userId == userId)
-)
+export const getBugByUserId = (userId) =>
+  createSelector(
+    (state) => state.entities.bugs,
+    (bugs) => bugs.list.filter((bug) => bug.userId == userId)
+  );

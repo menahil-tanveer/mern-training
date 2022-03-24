@@ -4,6 +4,7 @@
  * Purpose: This component is responsible for registering super admin
  */
 import React, { useState } from "react";
+import { signup } from "../services/api";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
@@ -19,6 +20,7 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import IconButton from "@material-ui/core/IconButton";
 import CopyrightIcon from "@material-ui/icons/Copyright";
 import { Link } from "react-router-dom";
+import { Snackbar } from "@material-ui/core";
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
@@ -51,12 +53,16 @@ export default function SignupForm() {
     password: "",
     showPassword: false,
     disable: false,
+    vertical: "top",
+    horizontal: "right",
     error: {
       id: "",
       fullName: "",
       email: "",
       password: "",
     },
+    snackbar: false,
+    snackbarMessage: "",
   });
 
   const handleChange = (prop) => (event) => {
@@ -73,8 +79,6 @@ export default function SignupForm() {
     event.preventDefault();
   };
   const validate = (prop, value) => {
-    console.log("prop", prop);
-    console.log("value", value);
     switch (prop) {
       case "id":
         values.error.id = "";
@@ -134,180 +138,221 @@ export default function SignupForm() {
     event.preventDefault();
     const { id, fullName, email, password } = values;
     let payload = {
-      id,
+      adminId: id,
       fullName,
       email,
       password,
     };
     console.log("payload:::", payload);
+    signup(payload)
+      .then((res) => {
+        setValues({ ...values, id: "", fullName: "", email: "", password: "" });
+        openSnackbar("Admin created successfully!");
+      })
+      .catch((error) => {
+        openSnackbar("Err! Something went wrong");
+      });
   };
-
+  const openSnackbar = (message) => {
+    setValues({ ...values, snackbar: true, snackbarMessage: message });
+    console.log("values.snackbar", values.snackbar);
+  };
   return (
-    <form>
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        p={1}
-        m={1}
-        bgcolor="background.paper"
-        style={{
-          width: "100vw",
-          height: "100vh",
-          background: "",
-          overflow: "hidden",
-        }}
-      >
-        <Card
+    <React.Fragment>
+      <Snackbar
+        open={values.snackbar}
+        message={values.snackbarMessage}
+        key={values.vertical + values.horizontal}
+      />
+
+      <form>
+        <Box
+          display="flex"
+          alignItems="center"
+          justifyContent="center"
+          p={1}
+          m={1}
+          bgcolor="background.paper"
           style={{
-            width: "400px",
-            padding: "34px",
-            boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+            width: "100vw",
+            height: "100vh",
+            background: "",
+            overflow: "hidden",
           }}
         >
-          <CardContent style={{ height: "" }}>
-            {/* Form Title */}
-            <Box className={classes.pos} display="flex" justifyContent="center">
-              <Typography
-                className={classes.title}
-                color="textPrimary"
-                gutterBottom
-                component="h2"
+          <Card
+            style={{
+              width: "400px",
+              padding: "34px",
+              boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+            }}
+          >
+            <CardContent style={{ height: "" }}>
+              {/* Form Title */}
+              <Box
+                className={classes.pos}
+                display="flex"
+                justifyContent="center"
               >
-                Sign Up
-              </Typography>
-            </Box>
-            {/* Form textfields */}
-            <div className={classes.textField}>
-              <TextField
-                id="admin-id"
-                label="Admin Id"
-                size="small"
-                fullWidth
-                onChange={handleChange("id")}
-                required
-                error={values.error.id ? true : false}
-              />
-              {values.error.id && (
-                <FormHelperText style={{ color: "red" }} id="id-error-text">
-                  {values.error.id}
-                </FormHelperText>
-              )}
-            </div>
-            <div className={classes.textField}>
-              <TextField
-                id="admin-full-name"
-                label="Full Name"
-                size="small"
-                fullWidth
-                onChange={handleChange("fullName")}
-                error={values.error.fullName ? true : false}
-                required
-              />
-              {values.error.fullName && (
-                <FormHelperText
-                  style={{ color: "red" }}
-                  id="fullName-error-text"
+                <Typography
+                  className={classes.title}
+                  color="textPrimary"
+                  gutterBottom
+                  component="h2"
                 >
-                  {values.error.fullName}
-                </FormHelperText>
-              )}
-            </div>
-            <div className={classes.textField}>
-              <TextField
-                id="admin-email"
-                label="Email"
-                type="email"
-                size="small"
-                fullWidth
-                onChange={handleChange("email")}
-                error={values.error.email ? true : false}
-                required
-              />
-              {values.error.email && (
-                <FormHelperText style={{ color: "red" }} id="email-error-text">
-                  {values.error.email}
-                </FormHelperText>
-              )}
-            </div>
-            <div>
-              <TextField
-                id="admin-password"
-                label="Password"
-                size="small"
-                fullWidth
-                type={values.showPassword ? "text" : "password"}
-                value={values.password}
-                onChange={handleChange("password")}
-                InputProps={{
-                  endAdornment: (
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                    >
-                      {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  ),
-                }}
-              />
-              {values.error.password && (
-                <FormHelperText
-                  style={{ color: "red" }}
-                  id="password-error-text"
+                  Sign Up
+                </Typography>
+              </Box>
+              {/* Form textfields */}
+              <div className={classes.textField}>
+                <TextField
+                  id="admin-id"
+                  label="Admin Id"
+                  size="small"
+                  fullWidth
+                  onChange={handleChange("id")}
+                  required
+                  error={values.error.id ? true : false}
+                />
+                {values.error.id && (
+                  <FormHelperText style={{ color: "red" }} id="id-error-text">
+                    {values.error.id}
+                  </FormHelperText>
+                )}
+              </div>
+              <div className={classes.textField}>
+                <TextField
+                  id="admin-full-name"
+                  label="Full Name"
+                  size="small"
+                  fullWidth
+                  onChange={handleChange("fullName")}
+                  error={values.error.fullName ? true : false}
+                  required
+                />
+                {values.error.fullName && (
+                  <FormHelperText
+                    style={{ color: "red" }}
+                    id="fullName-error-text"
+                  >
+                    {values.error.fullName}
+                  </FormHelperText>
+                )}
+              </div>
+              <div className={classes.textField}>
+                <TextField
+                  id="admin-email"
+                  label="Email"
+                  type="email"
+                  size="small"
+                  fullWidth
+                  onChange={handleChange("email")}
+                  error={values.error.email ? true : false}
+                  required
+                />
+                {values.error.email && (
+                  <FormHelperText
+                    style={{ color: "red" }}
+                    id="email-error-text"
+                  >
+                    {values.error.email}
+                  </FormHelperText>
+                )}
+              </div>
+              <div>
+                <TextField
+                  id="admin-password"
+                  label="Password"
+                  size="small"
+                  fullWidth
+                  type={values.showPassword ? "text" : "password"}
+                  value={values.password}
+                  onChange={handleChange("password")}
+                  InputProps={{
+                    endAdornment: (
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {values.showPassword ? (
+                          <Visibility />
+                        ) : (
+                          <VisibilityOff />
+                        )}
+                      </IconButton>
+                    ),
+                  }}
+                />
+                {values.error.password && (
+                  <FormHelperText
+                    style={{ color: "red" }}
+                    id="password-error-text"
+                  >
+                    {values.error.password}
+                  </FormHelperText>
+                )}
+              </div>
+            </CardContent>
+            <CardActions>
+              <Box
+                style={{ width: "100%" }}
+                className={classes.pos}
+                display="flex"
+                justifyContent="center"
+              >
+                <Button
+                  style={{ borderRadius: "26px" }}
+                  variant="contained"
+                  disableElevation
+                  color="secondary"
+                  size="large"
+                  type="submit"
+                  onClick={submit}
+                  disabled={
+                    values.error.id ||
+                    values.error.fullName ||
+                    values.error.password ||
+                    values.error.password
+                      ? true
+                      : false
+                  }
                 >
-                  {values.error.password}
-                </FormHelperText>
-              )}
-            </div>
-          </CardContent>
-          <CardActions>
+                  Sign up
+                </Button>
+              </Box>
+            </CardActions>
             <Box
-              style={{ width: "100%" }}
-              className={classes.pos}
               display="flex"
               justifyContent="center"
+              style={{ width: "100%" }}
             >
-              <Button
-                style={{ borderRadius: "26px" }}
-                variant="contained"
-                disableElevation
-                color="secondary"
-                size="large"
-                type="submit"
-                onClick={submit}
-                disabled={values.disable}
+              <Box
+                style={{ marginBottom: "16px", color: "grey" }}
+                fontSize={12}
+                fontStyle="normal"
               >
-                Sign up
-              </Button>
+                Already have an account? <Link to="/login">Login</Link>
+              </Box>
             </Box>
-          </CardActions>
-          <Box display="flex" justifyContent="center" style={{ width: "100%" }}>
+            {/* Copyright Footer */}
             <Box
-              style={{ marginBottom: "16px", color: "grey" }}
-              fontSize={12}
-              fontStyle="normal"
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              className="p-2"
+              style={{ width: "100%", fontSize: "10px", color: "grey" }}
             >
-              Already have an account? <Link to="/login">Login</Link>
+              Copyright{" "}
+              <CopyrightIcon
+                style={{ marginLeft: "2px", marginRight: "4px" }}
+                fontSize="inherit"
+              />{" "}
+              your website 2022
             </Box>
-          </Box>
-          {/* Copyright Footer */}
-          <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            className="p-2"
-            style={{ width: "100%", fontSize: "10px", color: "grey" }}
-          >
-            Copyright{" "}
-            <CopyrightIcon
-              style={{ marginLeft: "2px", marginRight: "4px" }}
-              fontSize="inherit"
-            />{" "}
-            your website 2022
-          </Box>
-        </Card>
-      </Box>
-    </form>
+          </Card>
+        </Box>
+      </form>
+    </React.Fragment>
   );
 }

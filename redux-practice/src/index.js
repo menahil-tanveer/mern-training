@@ -6,9 +6,10 @@ import {
   bugAssigned,
 } from "./store/bugs";
 import { projectAdded } from "./store/projects";
-import { userAdded } from "./store/users";
+import { loadUsers } from "./store/users";
 import configureStore from "./store/configureStore";
 const store = configureStore();
+
 // if written between dispatching actions, we will not be notified about the second action
 // const unsubscribe = store.subscribe(() => {
 //   console.log("store changed", store.getState());
@@ -44,12 +45,19 @@ console.log("unresolvedBugs", unresolvedBugs);
 const bugs = getBugByUserId(1)(store.getState());
 console.log("Get bug by user id::", bugs);
 
-store.dispatch({
-  type: "apiCallBegan",
-  payload: {
-    url: "/users",
-    onSuccess: "usersAdded", // action that needs to be dispatched on success
-    onError: "apiRequestFailed", // action that needs to be dispatched on failure
-  },
-});
+// store.dispatch({
+//   type: "apiCallBegan",
+//   payload: {
+//     url: "/users",
+//     onSuccess: "usersAdded", // action that needs to be dispatched on success
+//     onError: "apiRequestFailed", // action that needs to be dispatched on failure
+//   },
+// });
+// store.dispatch(
+//   actions.apiCallBegan({
+//     onSuccess: "usersAdded", // action that needs to be dispatched on success
+//     // onError: actions.apiCallFailed.type, // moving this to the middleware
+//   })
+// );
+store.dispatch(loadUsers());
 console.log("USERS STATE", store.getState());

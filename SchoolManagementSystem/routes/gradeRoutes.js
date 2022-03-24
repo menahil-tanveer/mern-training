@@ -96,24 +96,7 @@ router.put(
   [authenticateToken.verifyToken],
   gradeController.updateGrade
 );
-/**
- * @swagger
- * /api/delete-grade/
- *  delete:
- *    summary: Delete grade
- *    tags: [Grades]
- *    requestBody:
- *      required: true
- *      content:
- *        application/json:
- *          schema:
- *            $ref: '#/components/schemas/Grade'
- *    responses:
- *       200:
- *         description: Grade deleted successfully
- *       404:
- *         description: Not found
- */
+
 router.delete(
   "/remove-grade",
   [authenticateToken.verifyToken],

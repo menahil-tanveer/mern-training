@@ -126,7 +126,6 @@ export default function SimpleCard() {
             <Box flexGrow={1}>
               Don't have an account? <Link to="/sign-up">Sign up</Link>
             </Box>
-            {/* <Box>hola</Box> */}
           </Box>
         </CardContent>
         <CardActions>

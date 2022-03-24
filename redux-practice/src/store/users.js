@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-console.log("here.......!");
+import { apiCallBegan } from "./api";
 const slice = createSlice({
   name: "users",
   initialState: [],
@@ -20,3 +20,10 @@ const slice = createSlice({
 
 export const { userAdded, usersAdded } = slice.actions;
 export default slice.reducer;
+// CONFIG FILE CONSTANTS
+const URL = "/users";
+// ACTION CREATORS
+export const loadUsers = () =>
+  apiCallBegan({
+    onSuccess: usersAdded.type,
+  });

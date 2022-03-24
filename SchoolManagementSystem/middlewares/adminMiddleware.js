@@ -16,7 +16,7 @@ function validateAdmin(req, res, next) {
   try {
     const schema = Joi.object().keys({
       fullName: Joi.string()
-        .regex(/^[A-Za-z]+$/)
+        .regex(/^[A-Za-z ]+$/)
         .min(2)
         .max(100)
         .required(),
@@ -57,7 +57,7 @@ function validateUpdationData(req, res, next) {
   try {
     const schema = Joi.object().keys({
       fullName: Joi.string()
-        .regex(/^[A-Za-z]+$/)
+        .regex(/^[A-Za-z ]+$/)
         .min(2)
         .max(100)
         .required(),

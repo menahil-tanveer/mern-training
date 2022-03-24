@@ -113,7 +113,7 @@ router.get(
  */
 router.post(
   "/create-new-admin",
-  [authenticateToken.verifyToken, adminMiddleware.validateAdmin],
+  [adminMiddleware.validateAdmin],
   adminController.createAdmin
 );
 /**

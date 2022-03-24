@@ -19,9 +19,9 @@ export default function () {
     reducer,
     middleware: [
       ...getDefaultMiddleware(),
-      displayToast,
       logger({ test: "1" }),
       api,
+      displayToast,
     ],
     // Note: the order of middlewares matter & getDefaultMiddleware gets an array of all the middlewares
     // whereas spread operator is used to copy them

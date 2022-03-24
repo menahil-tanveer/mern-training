@@ -2,6 +2,7 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const swaggerUI = require("swagger-ui-express");
 const swaggerJsDoc = require("swagger-jsdoc");
+const cors = require("cors");
 
 const userRoutes = require("./routes/userRoutes");
 const adminRoutes = require("./routes/adminRoutes");
@@ -16,6 +17,13 @@ app.use(
     extended: true,
   })
 );
+const corsOpts = {
+  origin: "*",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type"],
+};
+
+app.use(cors(corsOpts));
 app.get("/", (req, res) => {
   res.status(200).json("Home route *_* ");
 });

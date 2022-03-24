@@ -1,12 +1,14 @@
 import axios from "axios";
 import { usersAdded } from "../users";
+import * as actions from "../api"
 const api =
-  ({ dispatch, getState }) =>
+  ({ dispatch }) =>
   (next) =>
-  async (action) => {
-    if (action.type !== "apiCallBegan") return next(action);
+      async (action) => {
+      console.log("action:",action)
+    if (action.type !== "api/CallBegan") return next(action);
     next(action); // if not placed here, this action will be swallowed and redux will move onto the actions defined below this
-    // const { url, onSuccess, onError } = action;
+    const { url, onSuccess, onError } = action.payload;
     // if (onStart) dispatch({ type: onStart });
     // next(action);
     try {
@@ -14,20 +16,13 @@ const api =
         baseURL: "https://jsonplaceholder.typicode.com/users",
         // data, // optional
       });
-      //general
-      // dispatch(action.payload.apiCallSuccess(response.data));
-      // sepcific
       console.log("onSuccess");
-      if (action.payload.onSuccess) dispatch(usersAdded(response.data));
-      //   dispatch({ type: action.payload.onSuccess, payload: response.data });
-      console.log("users", response.data);
-      next(action);
+      if (onSuccess) dispatch(usersAdded(response.data));
     } catch (error) {
-      // general error message
-      //   dispatch(action.payload.apiCallFailed(error));
-      // specific error message
-      if (action.payload.onError)
-        dispatch({ type: action.payload.onError, payload: error });
+      // General error message
+      dispatch(actions.apiCallFailed(error));
+      // Specific error message
+      if (onError) dispatch({ type: onError, payload: error });
     }
   };
 export default api;
