@@ -22,15 +22,20 @@ export const signUp = createAsyncThunk("/createNewAdmin", async (payload) => {
 });
 // LOGIN
 // admin
-export const adminLogin = createAsyncThunk("/adminLogin", async (payload) => {
-  const { adminId, password } = payload;
-  const response = await axios.post(`${BASE_URL}/admins/admin-login`, {
-    adminId,
-    password,
-  });
-  console.log("admin login api res:::", response);
-  return response.data;
-});
+export const adminLogin = createAsyncThunk(
+  "/adminLogin",
+  async (payload, thunkAPI) => {
+    console.log("thunkAPI::::", thunkAPI);
+    const { adminId, password } = payload;
+    const response = await axios.post(`${BASE_URL}/admins/admin-login`, {
+      adminId,
+      password,
+    });
+    console.log("admin login api res:::", response);
+    window.localStorage.setItem("auth-token", response.data.token);
+    return response.data;
+  }
+);
 // user
 export const userLogin = createAsyncThunk("/userLogin", async (payload) => {
   const { userId, password } = payload;

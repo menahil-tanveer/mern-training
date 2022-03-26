@@ -1,68 +1,49 @@
-/**
- * Author: Menahil
- * Date: 22-03-22
- * Purpose: This component is responsible for user authentication
- */
-import React from "react";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { adminLogin, userLogin } from "../store/middleware/auth";
-
-import { makeStyles } from "@material-ui/core/styles";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate } from "react-router-dom";
+import { Formik, Field, Form, ErrorMessage } from "formik";
+import * as Yup from "yup";
+import { userLogin, login } from "../slices/auth";
+import { clearMessage } from "../slices/message";
+import { UpperCasingTextField, SimpleTextField } from "../utilities";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
+import { Box } from "@mui/material";
 import Typography from "@material-ui/core/Typography";
-import Box from "@material-ui/core/Box";
-import TextField from "@material-ui/core/TextField";
-
+import CopyrightIcon from "@material-ui/icons/Copyright";
+import { Lock } from "@material-ui/icons";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import IconButton from "@material-ui/core/IconButton";
-import CopyrightIcon from "@material-ui/icons/Copyright";
+
 import { Link } from "react-router-dom";
 
-const useStyles = makeStyles({
-  root: {
-    minWidth: 275,
-  },
-  bullet: {
-    display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)",
-  },
-  title: {
-    fontSize: 26,
-    fontWeight: "bold",
-  },
-  textField: {
-    width: "inherit",
-    marginBottom: 28,
-  },
-  pos: {
-    marginBottom: 26,
-  },
-});
-export default function LoginCard() {
+const Login = (props) => {
+  const [loading, setLoading] = useState(false);
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { message } = useSelector((state) => state.message);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   useEffect(() => {
-    document.title = "Login";
+    dispatch(clearMessage());
+  }, [dispatch]);
+  const [values, setValues] = useState({
+    role: "user",
+    showPassword: false,
+    snackbarMessage: "",
   });
-  const classes = useStyles();
-  const [values, setValues] = React.useState({
+  const initialValues = {
     userId: "",
     password: "",
-    showPassword: false,
-    role: "admin",
-  });
-
-  const handleChange = (prop) => (event) => {
-    setValues({ ...values, [prop]: event.target.value });
   };
-
+  const validationSchema = Yup.object().shape({
+    userId: Yup.string().required("This is a required field"),
+    password: Yup.string().required("This is a required field"),
+  });
+  const resetForm = () => {
+    setValues({ ...values, userId: "", password: "", showPassword: false });
+  };
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword });
   };
@@ -70,31 +51,40 @@ export default function LoginCard() {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  const resetForm = () => {
-    setValues({ ...values, userId: "", password: "", showPassword: false });
-  };
-  const login = (event) => {
-    console.log("login!");
-    event.preventDefault();
-    const { userId, password } = values;
-    let payload = {
-      password,
-    };
-    if (values.role === "admin") {
-      payload.adminId = userId;
-      dispatch(adminLogin(payload)).catch((error) => {
-        console.log("Admin Login Error::", error);
-      });
+  const handleLogin = (formValue) => {
+    console.log("inside USER handle login");
+    console.log("formValue", formValue);
+    const { userId, password } = formValue;
+    setLoading(true);
+    if (values.role == "user") {
+      dispatch(userLogin({ userId, password }))
+        .unwrap()
+        .then(() => {
+          props.history.push("/login");
+          window.location.reload();
+        })
+        .catch(() => {
+          setLoading(false);
+        });
     } else {
-      payload.userId = userId;
-      console.log("user payload", payload);
-      dispatch(userLogin(payload)).catch((error) => {
-        console.log("User Login Error::", error);
-      });
+      let payload = {
+        adminId: userId,
+        password,
+      };
+      dispatch(login(payload))
+        .unwrap()
+        .then(() => {
+          props.history.push("/login");
+          window.location.reload();
+        })
+        .catch(() => {
+          setLoading(false);
+        });
     }
-    // setValues({ ...values, userId: "", password: "" });
   };
-
+  if (isLoggedIn) {
+    return <Navigate to="/admin-dashboard" />;
+  }
   return (
     <Box
       display="flex"
@@ -103,146 +93,169 @@ export default function LoginCard() {
       p={1}
       m={1}
       bgcolor="background.paper"
-      style={{ width: "100vw", height: "100vh" }}
+      style={{
+        width: "100vw",
+        height: "100vh",
+        background: "",
+        overflow: "hidden",
+      }}
     >
       <Card
         style={{
           width: "400px",
-          height: "400px",
+          minHeight: "350px",
           padding: "34px",
           boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
         }}
       >
-        <CardContent style={{ height: "280px" }}>
-          {/* CARD TITLE */}
-          <Box className={classes.pos} display="flex" justifyContent="center">
+        <CardContent style={{}}>
+          {values.role === "admin" && (
+            <div>
+              {/* <img
+                src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+                alt="profile-img"
+                className="profile-img-card"
+                style={{ height: "30px", width: "30px", borderRadius: "50px" }}
+              /> */}
+              <Lock color="secondary" height="30px" width="30px"></Lock>
+            </div>
+          )}
+          <Box display="flex" justifyContent="center">
             <Typography
-              className={classes.title}
+              style={{ fontSize: 26, fontWeight: "bold" }}
               color="textPrimary"
               gutterBottom
               component="h2"
             >
-              {values.role === "admin" && "Admin Login"}
-              {values.role !== "admin" && "Login"}
+              {values.role == "user" ? "User Login" : "Admin Login"}
             </Typography>
           </Box>
-          <div className={classes.textField}>
-            <TextField
-              id="user-id"
-              label="Id"
-              onChange={handleChange("userId")}
-              value={values.userId}
-              type="text"
-              size="small"
-              fullWidth
-            />
+          <Formik
+            initialValues={initialValues}
+            validationSchema={validationSchema}
+            onSubmit={handleLogin}
+          >
+            <Form>
+              <Box style={{ marginTop: "26px" }}>
+                <Field
+                  component={UpperCasingTextField}
+                  name="userId"
+                  type="userId"
+                  label="Enter ID"
+                  helperText=""
+                />
+              </Box>
+
+              <Box style={{ marginTop: "26px" }}>
+                <Field
+                  component={SimpleTextField}
+                  name="password"
+                  type="password"
+                  label="Enter password"
+                  helperText=""
+                  fullWidth={true}
+                  type={values.showPassword ? "text" : "password"}
+                  value={values.password}
+                  InputProps={{
+                    endAdornment: (
+                      <IconButton
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowPassword}
+                        onMouseDown={handleMouseDownPassword}
+                      >
+                        {values.showPassword ? (
+                          <Visibility />
+                        ) : (
+                          <VisibilityOff />
+                        )}
+                      </IconButton>
+                    ),
+                  }}
+                />
+              </Box>
+              <Box display="flex" style={{ width: "100%", marginTop: "26px" }}>
+                <Box
+                  style={{ marginBottom: "16px", color: "grey" }}
+                  fontSize={12}
+                  fontStyle="normal"
+                >
+                  {values.role == "admin" ? (
+                    <div>
+                      For user login click
+                      <a
+                        href="#"
+                        onClick={() => {
+                          setValues({ ...values, role: "user" });
+                        }}
+                        style={{ marginLeft: "4px" }}
+                      >
+                        here
+                      </a>
+                    </div>
+                  ) : (
+                    <div>
+                      For admin login click
+                      <a
+                        onClick={() => {
+                          setValues({ ...values, role: "admin" });
+                        }}
+                        href="#"
+                        style={{ marginLeft: "4px" }}
+                      >
+                        here
+                      </a>
+                    </div>
+                  )}
+                </Box>
+              </Box>
+              <Box
+                style={{ width: "100%", marginTop: "40px" }}
+                display="flex"
+                justifyContent="center"
+              >
+                <Button
+                  style={{ borderRadius: "26px" }}
+                  variant="contained"
+                  disableElevation
+                  color="secondary"
+                  size="large"
+                  type="submit"
+                  disabled={loading}
+                >
+                  {loading && (
+                    <span className="spinner-border spinner-border-sm">.</span>
+                  )}
+                  Login
+                </Button>
+              </Box>
+            </Form>
+          </Formik>
+          {/* {message && (
+        <div className="form-group">
+          <div className="alert alert-danger" role="alert">
+            {message}
           </div>
-          <div>
-            <TextField
-              id="password"
-              label="Password"
-              size="small"
-              fullWidth
-              type={values.showPassword ? "text" : "password"}
-              value={values.password}
-              onChange={handleChange("password")}
-              InputProps={{
-                endAdornment: (
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                  >
-                    {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                ),
-              }}
-            />
-          </div>
-          <Box display="flex" style={{ width: "100%" }}>
-            <Box
-              style={{ marginTop: "16px", color: "grey" }}
-              fontSize={12}
-              fontStyle="normal"
-              justifyItems="start"
-            >
-              {values.role !== "user" && (
-                <div>
-                  Not an admin?
-                  <a
-                    style={{ marginLeft: "8px" }}
-                    onClick={() => {
-                      values.role = "user";
-                      resetForm();
-                    }}
-                    href="#"
-                  >
-                    Login here
-                  </a>
-                </div>
-              )}
-              {values.role === "user" && (
-                <div>
-                  For admin login
-                  <a
-                    style={{ marginLeft: "8px" }}
-                    onClick={() => {
-                      values.role = "admin";
-                      resetForm();
-                    }}
-                    href="#"
-                  >
-                    click here
-                  </a>
-                </div>
-              )}
-            </Box>
-            {/* <Box
-              style={{ marginTop: "16px", color: "grey" }}
-              fontSize={12}
-              fontStyle="normal"
-              flexGrow={1}
-              display="flex"
-              justifyContent="end"
-            >
-              <Link to="/sign-up">Forgot password ?</Link>
-            </Box> */}
-          </Box>
+        </div>
+      )} */}
         </CardContent>
         <CardActions>
           <Box
-            style={{ width: "100%" }}
-            className={classes.pos}
             display="flex"
             justifyContent="center"
+            alignItems="center"
+            className="p-2"
+            style={{ width: "100%", fontSize: "10px", color: "grey" }}
           >
-            <Button
-              style={{ borderRadius: "26px" }}
-              variant="contained"
-              disableElevation
-              color="secondary"
-              size="large"
-              onClick={login}
-            >
-              Login
-            </Button>
+            Copyright{" "}
+            <CopyrightIcon
+              style={{ marginLeft: "2px", marginRight: "4px" }}
+              fontSize="inherit"
+            />{" "}
+            your website 2022
           </Box>
         </CardActions>
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          className="p-2"
-          style={{ width: "100%", fontSize: "10px", color: "grey" }}
-        >
-          Copyright{" "}
-          <CopyrightIcon
-            style={{ marginLeft: "2px", marginRight: "4px" }}
-            fontSize="inherit"
-          />{" "}
-          your website 2022
-        </Box>
       </Card>
     </Box>
   );
-}
+};
+export default Login;
