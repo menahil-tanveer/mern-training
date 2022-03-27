@@ -22,6 +22,8 @@ import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
 import { Box } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import Users from "../components/Users";
+import Courses from "../components/Courses";
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -129,9 +131,9 @@ export default function Home() {
         {values.view == "Dashboard" ? (
           <p>Dashboard</p>
         ) : values.view == "Users" ? (
-          "users"
+          <Users />
         ) : (
-          "courses"
+          <Courses />
         )}
       </main>
     </div>
