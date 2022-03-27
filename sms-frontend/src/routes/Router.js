@@ -9,9 +9,7 @@ import { BrowserRouter } from "react-router-dom";
 
 import Home from "../views/Home";
 import Signup from "../views/Signup";
-import AdminLogin from "../views/AdminLogin";
 import Login from "../views/Login";
-
 
 class Router extends Component {
   render() {
@@ -19,10 +17,9 @@ class Router extends Component {
       <React.Fragment>
         <BrowserRouter>
           <Routes>
-            <Route title="Dashboard" path="/admin-dashboard" element={<Home />}></Route>
+            <Route path="/dashboard" element={<Home />}></Route>
             <Route path="/sign-up" element={<Signup />}></Route>
             <Route path="/login" element={<Login />}></Route>
-            <Route path="/admin-login" element={<AdminLogin />}></Route>
             <Route path="*" element={<h1>404</h1>}></Route>
           </Routes>
         </BrowserRouter>

@@ -52,7 +52,6 @@ const Login = (props) => {
     event.preventDefault();
   };
   const handleLogin = (formValue) => {
-    console.log("inside USER handle login");
     console.log("formValue", formValue);
     const { userId, password } = formValue;
     setLoading(true);
@@ -83,7 +82,7 @@ const Login = (props) => {
     }
   };
   if (isLoggedIn) {
-    return <Navigate to="/admin-dashboard" />;
+    return <Navigate to="/dashboard" />;
   }
   return (
     <Box

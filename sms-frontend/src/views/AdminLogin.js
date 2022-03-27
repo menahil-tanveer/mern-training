@@ -36,9 +36,9 @@ const Login = (props) => {
         setLoading(false);
       });
   };
-  if (isLoggedIn) {
-    return <Navigate to="/admin-dashboard" />;
-  }
+  // if (isLoggedIn) {
+  //   return <Navigate to="/dashboard" />;
+  // }
   return (
     <div className="col-md-12 login-form">
       <div className="card card-container">

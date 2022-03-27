@@ -66,8 +66,8 @@ export const logout = createAsyncThunk("auth/logout", async () => {
   await AuthService.logout();
 });
 const initialState = user
-  ? { isLoggedIn: true, user }
-  : { isLoggedIn: false, user: null };
+  ? { isLoggedIn: true, user, role: user.role }
+  : { isLoggedIn: false, user: null, role: null };
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -75,13 +75,17 @@ const authSlice = createSlice({
     // ADMIN
     [register.fulfilled]: (state, action) => {
       state.isLoggedIn = false;
+      state.registered = true;
     },
     [register.rejected]: (state, action) => {
       state.isLoggedIn = false;
+      state.registered = false;
     },
     [login.fulfilled]: (state, action) => {
+      console.log("admin login fulfilled", action);
       state.isLoggedIn = true;
       state.user = action.payload.user;
+      state.role = action.payload.user.user.role;
     },
     [login.rejected]: (state, action) => {
       state.isLoggedIn = false;
@@ -89,8 +93,11 @@ const authSlice = createSlice({
     },
     // USER
     [userLogin.fulfilled]: (state, action) => {
+      console.log("user login fulfilled", action);
+
       state.isLoggedIn = true;
       state.user = action.payload.user;
+      state.role = action.payload.user.user.role;
     },
     [userLogin.rejected]: (state, action) => {
       state.isLoggedIn = false;
@@ -100,6 +107,7 @@ const authSlice = createSlice({
     [logout.fulfilled]: (state, action) => {
       state.isLoggedIn = false;
       state.user = null;
+      state.role = null;
     },
   },
 });
