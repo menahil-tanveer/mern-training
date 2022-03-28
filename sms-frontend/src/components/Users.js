@@ -8,6 +8,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import Button from "@material-ui/core/Button";
+import { Box } from "@material-ui/core";
+import AddNewUser from "../components/AddNewUser";
+
 import { fetchAllUsers, getAllUsers } from "../slices/users";
 const Users = () => {
   const dispatch = useDispatch();
@@ -49,6 +53,21 @@ const Users = () => {
   console.log("getAllUsers result", useSelector(getAllUsers));
   return (
     <React.Fragment>
+      <Box
+        display="flex"
+        justifyContent="end"
+        style={{ width: "100%", marginBottom: "16px" }}
+      >
+        {/* <Button
+          variant="contained"
+          disableElevation
+          color="secondary"
+          size="small"
+        >
+          + Add new user
+        </Button> */}
+        <AddNewUser />
+      </Box>
       <TableContainer component={Paper}>
         <Table
           sx={{ minWidth: 650, height: "calc(100vh - 160px)" }}

@@ -27,7 +27,6 @@ import Users from "../components/Users";
 import Courses from "../components/Courses";
 import Profile from "../components/Profile";
 import ProfileSettings from "../components/ProfileSettings";
-import AddNewAdmin from "../components/AddNewAdmin";
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -165,7 +164,7 @@ export default function Home() {
         ) : values.view == "profileSettings" ? (
           <ProfileSettings />
         ) : values.view == "addNewAdmin" ? (
-          <AddNewAdmin />
+          "NEW ADMIN"
         ) : (
           "default"
         )}
