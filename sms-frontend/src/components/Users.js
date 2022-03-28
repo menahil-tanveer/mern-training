@@ -31,9 +31,9 @@ const Users = () => {
     {
       title: "Role",
     },
-    {
-      title: "Courses",
-    },
+    // {
+    //   title: "Courses",
+    // },
   ];
   useEffect(() => {
     dispatch(fetchAllUsers())
@@ -72,9 +72,9 @@ const Users = () => {
                 <TableCell align="right">{row.email}</TableCell>
                 <TableCell align="right">{row.secondaryEmail}</TableCell>
                 <TableCell align="right">{row.role}</TableCell>
-                <TableCell align="right">
+                {/* <TableCell align="right">
                   {row.Courses.length ? row.Courses : "None"}
-                </TableCell>
+                </TableCell> */}
               </TableRow>
             ))}
           </TableBody>
