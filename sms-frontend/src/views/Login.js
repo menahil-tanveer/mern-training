@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { userLogin, login } from "../slices/auth";
@@ -21,13 +21,24 @@ import IconButton from "@material-ui/core/IconButton";
 import { Link } from "react-router-dom";
 
 const Login = (props) => {
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const { isLoggedIn } = useSelector((state) => state.auth);
   const { message } = useSelector((state) => state.message);
   const dispatch = useDispatch();
+  const [dependency1, setDependency1] = useState(isLoggedIn);
   useEffect(() => {
     dispatch(clearMessage());
   }, [dispatch]);
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/login", { replace: true });
+    } else {
+      navigate("/dashboard", { replace: true });
+    }
+  }, [isLoggedIn]);
   const [values, setValues] = useState({
     role: "user",
     showPassword: false,
@@ -41,9 +52,7 @@ const Login = (props) => {
     userId: Yup.string().required("This is a required field"),
     password: Yup.string().required("This is a required field"),
   });
-  const resetForm = () => {
-    setValues({ ...values, userId: "", password: "", showPassword: false });
-  };
+
   const handleClickShowPassword = () => {
     setValues({ ...values, showPassword: !values.showPassword });
   };
@@ -58,10 +67,7 @@ const Login = (props) => {
     if (values.role == "user") {
       dispatch(userLogin({ userId, password }))
         .unwrap()
-        .then(() => {
-          props.history.push("/login");
-          window.location.reload();
-        })
+        .then(() => {})
         .catch(() => {
           setLoading(false);
         });
@@ -72,18 +78,15 @@ const Login = (props) => {
       };
       dispatch(login(payload))
         .unwrap()
-        .then(() => {
-          props.history.push("/login");
-          window.location.reload();
-        })
+        .then(() => {})
         .catch(() => {
           setLoading(false);
         });
     }
   };
-  if (isLoggedIn) {
-    return <Navigate to="/dashboard" />;
-  }
+  // if (isLoggedIn) {
+  //   return <Navigate to="/dashboard" />;
+  // }
   return (
     <Box
       display="flex"

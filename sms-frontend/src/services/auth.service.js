@@ -16,7 +16,8 @@ const userLogin = async (userId, password) => {
     })
     .then((response) => {
       if (response.data.token) {
-        localStorage.setItem("user", JSON.stringify(response.data));
+        localStorage.setItem("user", JSON.stringify(response.data.user));
+        localStorage.setItem("token", JSON.stringify(response.data.token));
       }
       return response.data;
     });
@@ -29,13 +30,16 @@ const login = async (adminId, password) => {
     })
     .then((response) => {
       if (response.data.token) {
-        localStorage.setItem("user", JSON.stringify(response.data));
+        console.log("response.data:::", response.data);
+        localStorage.setItem("user", JSON.stringify(response.data.admin));
+        localStorage.setItem("token", JSON.stringify(response.data.token));
       }
       return response.data;
     });
 };
 const logout = () => {
   localStorage.removeItem("user");
+  localStorage.removeItem("token");
 };
 const authService = {
   register,

@@ -20,12 +20,15 @@ export const fetchAllUsers = createAsyncThunk("fetch/all-users", async () => {
 
 const authSlice = createSlice({
   name: "users",
-  initialState: [],
+  initialState: {
+    allUsers: [],
+  },
   extraReducers: {
     // ALL USERS
-    [fetchAllUsers.fulfilled]: (state, action) => {
+      [fetchAllUsers.fulfilled]: (state, action) => {
+          
       console.log("action fulfilled", action);
-      //   state.push(...action.payload);
+      
     },
     [fetchAllUsers.rejected]: (state, action) => {
       console.log("action rejected", action);

@@ -3,9 +3,10 @@
  * Date: 22-03-22
  * Purpose: This component contains user statistics
  */
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
 import Drawer from "@material-ui/core/Drawer";
@@ -24,6 +25,8 @@ import { Box } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import Users from "../components/Users";
 import Courses from "../components/Courses";
+import Profile from "../components/Profile";
+import ProfileSettings from "../components/ProfileSettings";
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,7 +56,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Home() {
+  const user = JSON.parse(localStorage.getItem("user"));
+  const { isLoggedIn, role } = useSelector((state) => state.auth);
+
   const location = useLocation();
+  const navigate = useNavigate();
   const classes = useStyles();
   const links = [
     {
@@ -76,19 +83,39 @@ export default function Home() {
   const setView = (view) => {
     setValues({ ...values, view });
   };
+  const handleProfileSettings = (view) => {
+    console.log("child view is", view);
+  };
   useEffect(() => {
-    if (location.pathname === "/dashboard") {
-      setValues({ ...values, title: "Dashboard" });
+    if (isLoggedIn) {
+      console.log("here");
+      navigate("/dashboard", { replace: true });
+    } else {
+      console.log("here in else");
+      navigate("/login", { replace: true });
     }
-  }, [location]);
+  }, [isLoggedIn]);
   return (
     <div className={classes.root}>
       <CssBaseline />
       <AppBar position="fixed" className={classes.appBar}>
         <Toolbar>
-          <Typography variant="h6" noWrap>
-            {values.title}
-          </Typography>
+          <Box
+            style={{ width: "100%" }}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <Box display="flex" flexGrow={1}>
+              {" "}
+              <Typography variant="h6" noWrap>
+                {values.title}
+              </Typography>
+            </Box>
+            <Box display="flex">
+              <Profile onProfileSettings={setView} />
+            </Box>
+          </Box>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -132,8 +159,14 @@ export default function Home() {
           <p>Dashboard</p>
         ) : values.view == "Users" ? (
           <Users />
-        ) : (
+        ) : values.view == "Courses" ? (
           <Courses />
+        ) : values.view == "profileSettings" ? (
+          <ProfileSettings />
+        ) : values.view == "addNewAdmin" ? (
+          "addNewAdmin"
+        ) : (
+          "default"
         )}
       </main>
     </div>

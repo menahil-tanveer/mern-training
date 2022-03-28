@@ -27,7 +27,7 @@ export const register = createAsyncThunk(
   }
 );
 export const login = createAsyncThunk(
-  "auth/login",
+  "auth/admin-login",
   async ({ adminId, password }, thunkAPI) => {
     try {
       const data = await AuthService.login(adminId, password);
@@ -45,7 +45,7 @@ export const login = createAsyncThunk(
   }
 );
 export const userLogin = createAsyncThunk(
-  "auth/login",
+  "auth/user-login",
   async ({ userId, password }, thunkAPI) => {
     try {
       const data = await AuthService.userLogin(userId, password);
@@ -66,7 +66,7 @@ export const logout = createAsyncThunk("auth/logout", async () => {
   await AuthService.logout();
 });
 const initialState = user
-  ? { isLoggedIn: true, user, role: user.role }
+  ? { isLoggedIn: true, user, role: user.adminId ? "admin" : user.role }
   : { isLoggedIn: false, user: null, role: null };
 const authSlice = createSlice({
   name: "auth",
@@ -82,19 +82,19 @@ const authSlice = createSlice({
       state.registered = false;
     },
     [login.fulfilled]: (state, action) => {
-      console.log("admin login fulfilled", action);
+      //   console.log("admin login fulfilled", action);
       state.isLoggedIn = true;
-      state.user = action.payload.user;
-      state.role = action.payload.user.user.role;
+      state.user = action.payload.user.admin;
+      state.role = "admin";
     },
     [login.rejected]: (state, action) => {
       state.isLoggedIn = false;
       state.user = null;
+      state.role = null;
     },
     // USER
     [userLogin.fulfilled]: (state, action) => {
       console.log("user login fulfilled", action);
-
       state.isLoggedIn = true;
       state.user = action.payload.user;
       state.role = action.payload.user.user.role;
@@ -102,6 +102,7 @@ const authSlice = createSlice({
     [userLogin.rejected]: (state, action) => {
       state.isLoggedIn = false;
       state.user = null;
+      state.role = null;
     },
     // GENERAL
     [logout.fulfilled]: (state, action) => {
