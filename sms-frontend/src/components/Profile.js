@@ -96,10 +96,7 @@ const Profile = (props) => {
           </Box>
         </MenuItem>
         <Divider />
-        <MenuItem onClick={() => props.onProfileSettings("addNewAdmin")}>
-          <ListItemIcon>{/* <PersonAdd fontSize="small" /> */}</ListItemIcon>
-          Add another account
-        </MenuItem>
+
         <MenuItem onClick={() => props.onProfileSettings("profileSettings")}>
           <ListItemIcon>{/* <Settings fontSize="small" /> */}</ListItemIcon>
           Settings

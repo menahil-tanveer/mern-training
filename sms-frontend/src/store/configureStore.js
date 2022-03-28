@@ -16,17 +16,22 @@
 //     // whereas spread operator is used to copy them
 //   });
 // }
-import { configureStore } from '@reduxjs/toolkit'
+import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "../slices/auth";
+import userReducer from "../slices/users";
+import adminReducer from "../slices/admin";
+
 import messageReducer from "../slices/message";
 const reducer = {
   auth: authReducer,
-  message: messageReducer
-}
+  message: messageReducer,
+  users: userReducer,
+  admin: adminReducer,
+};
 export default function () {
   // Always pass a refernce of the function donot call it i.e. write 'reducer' NOT 'reducer()'
   return configureStore({
-    reducer
+    reducer,
     // Note: the order of middlewares matter & getDefaultMiddleware gets an array of all the middlewares
     // whereas spread operator is used to copy them
   });

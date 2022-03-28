@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -9,9 +8,10 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import { fetchAllUsers } from "../slices/users";
+import { fetchAllUsers, getAllUsers } from "../slices/users";
 const Users = () => {
   const dispatch = useDispatch();
+  //   const { allUsers } = useSelector((state) => state.fetchAllUsers);
   function createData(name, calories, fat, carbs, protein) {
     return { name, calories, fat, carbs, protein };
   }
@@ -31,64 +31,50 @@ const Users = () => {
     {
       title: "Role",
     },
+    {
+      title: "Courses",
+    },
   ];
-  const rows = [
-    createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-    createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-    createData("Eclair", 262, 16.0, 24, 6.0),
-    createData("Cupcake", 305, 3.7, 67, 4.3),
-    createData("Gingerbread", 356, 16.0, 49, 3.9),
-  ];
-//   useEffect(() => {
-//     dispatch(fetchAllUsers())
-//       .unwrap()
-//       .then((res) => {
-//         console.log("resss", res);
-//       })
-//       .catch((error) => {
-//         console.log(error);
-//       });
-
-//     document.title = "Users";
-//   });
+  useEffect(() => {
+    dispatch(fetchAllUsers())
+      .unwrap()
+      .then((res) => {
+        console.log("users", res);
+      })
+      .catch((error) => {
+        console.log("error", error);
+      });
+  }, []);
+  const usersList = useSelector(getAllUsers);
+  console.log("getAllUsers result", useSelector(getAllUsers));
   return (
     <React.Fragment>
       <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+        <Table
+          sx={{ minWidth: 650, height: "calc(100vh - 160px)" }}
+          size="small"
+          aria-label="a dense table"
+        >
           <TableHead>
             <TableRow>
               {columns.map((column, index) => (
                 <TableCell key={index}>{column.title}</TableCell>
               ))}
-              {/* {links.map((element, index) => (
-            <ListItem button key={index}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText
-                onClick={() => {
-                  setView(element.title);
-                }}
-                to="${element.route}"
-                primary={element.title}
-              />
-            </ListItem>
-          ))} */}
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => (
-              <TableRow
-                key={row.name}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
+            {usersList.map((row) => (
+              <TableRow style={{ maxHeight: "20px" }} key={row.userId}>
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  {row.firstName + " " + row.lastName}
                 </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
-                <TableCell align="right">{row.protein}</TableCell>
+                <TableCell align="right">{row.userId}</TableCell>
+                <TableCell align="right">{row.email}</TableCell>
+                <TableCell align="right">{row.secondaryEmail}</TableCell>
+                <TableCell align="right">{row.role}</TableCell>
+                <TableCell align="right">
+                  {row.Courses.length ? row.Courses : "None"}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
