@@ -51,14 +51,24 @@ const UserDashboard = () => {
             <EnrollCourse />
           </Box>
         ) : (
-          <Box display="flex" justifyContent="end">
+          <Box
+            style={{ marginTop: "40px" }}
+            display="flex"
+            justifyContent="end"
+          >
             <AssignGrade />
           </Box>
         )}
 
-        <TableContainer style={{ marginTop: "32px" }} component={Paper}>
+        <TableContainer
+          style={{
+            marginTop: "32px",
+            boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
+          }}
+          component={Paper}
+        >
           <Table
-            sx={{ minWidth: 650, height: "calc(100vh - 160px)" }}
+            sx={{ minWidth: 650, minHeight: "400px" }}
             size="small"
             aria-label="a dense table"
           >

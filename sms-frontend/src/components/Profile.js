@@ -45,7 +45,12 @@ const Profile = (props) => {
             aria-haspopup="true"
             aria-expanded={open ? "true" : undefined}
           >
-            <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+            <Avatar
+              style={{ background: "#ff4569" }}
+              sx={{ width: 32, height: 32 }}
+            >
+              M
+            </Avatar>
           </IconButton>
         </Tooltip>
       </Box>

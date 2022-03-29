@@ -65,9 +65,12 @@ const Users = () => {
       >
         <AddNewCourse />
       </Box>
-      <TableContainer component={Paper}>
+      <TableContainer
+        style={{ boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px" }}
+        component={Paper}
+      >
         <Table
-          sx={{ minWidth: 650, height: "calc(100vh - 160px)" }}
+          sx={{ minWidth: 850, height: "calc(100vh - 240px)" }}
           size="small"
           aria-label="a dense table"
         >

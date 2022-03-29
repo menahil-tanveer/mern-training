@@ -156,7 +156,7 @@ export default function Home() {
         >
           <h1>Logo.</h1>
         </Box>
-        {/* <Divider /> */}
+
         <div className={classes.toolbar} />
         {role == "admin" && (
           <List style={{ background: "" }}>
