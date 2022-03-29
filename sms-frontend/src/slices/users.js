@@ -73,6 +73,17 @@ export const enrollCourse = createAsyncThunk(
     }
   }
 );
+export const assignGrade = createAsyncThunk(
+    "enroll/course",
+    async (payload, thunkAPI) => {
+      try {
+        const response = await UserService.assignGrade(payload);
+        return response.data;
+      } catch (error) {
+        return error;
+      }
+    }
+  );
 const userSlice = createSlice({
   name: "users",
   initialState: {

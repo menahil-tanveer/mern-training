@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setMessage } from "./message";
 import CourseService from "../services/course.service";
+
 // ADD NEW COURSE
 export const createNewCourse = createAsyncThunk(
   "create/course",
@@ -71,3 +72,4 @@ export default reducer;
 // SELECTORS
 export const getAllCourses = (state) =>
   state.courses.allCourses.map((course) => course);
+

@@ -74,6 +74,21 @@ const enrollCourse = async (payload) => {
       console.log("/assign-course api error:", error);
     });
 };
+const assignGrade = async (payload) => {
+  return await axios
+    .post(API_URL + `grades/assign-grade`, payload, {
+      headers: authHeader(),
+    })
+    .then((response) => {
+      if (response.data) {
+        console.log("/assign-grade api res", response.data);
+      }
+      return response.data;
+    })
+    .catch((error) => {
+      console.log("/assign-grade api error:", error);
+    });
+};
 const getAllTeachers = () => {
   return axios.get(API_URL + "users/get-all-teachers", {
     headers: authHeader(),
@@ -87,5 +102,6 @@ const userService = {
   updateProfile,
   deleteUserById,
   enrollCourse,
+  assignGrade,
 };
 export default userService;
