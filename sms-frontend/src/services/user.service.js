@@ -24,7 +24,7 @@ const createNewUser = async (payload) => {
 };
 const updateProfile = async (payload) => {
   return await axios
-    .put(API_URL + `users/update-user-info/${payload.userId}`, payload, {
+    .put(API_URL + `users/update-user/${payload.userId}`, payload, {
       headers: authHeader(),
       //   params: payload.id,
     })

@@ -23,10 +23,9 @@ import { Link } from "react-router-dom";
 
 const Login = (props) => {
   const user = JSON.parse(localStorage.getItem("user"));
-
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { isLoggedIn, role } = useSelector((state) => state.auth);
   const { message } = useSelector((state) => state.message);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -44,21 +43,13 @@ const Login = (props) => {
     snackbarMessage: "",
   });
   const initialValues = {
-    userId: user.adminId,
+    userId: role == "admin" ? user.adminId : user.userId,
     password: user.password,
   };
   const validationSchema = Yup.object().shape({
     userId: Yup.string().required("This is a required field"),
     password: Yup.string().required("This is a required field"),
   });
-
-  //   const handleClickShowPassword = () => {
-  //     setValues({ ...values, showPassword: !values.showPassword });
-  //   };
-
-  //   const handleMouseDownPassword = (event) => {
-  //     event.preventDefault();
-  //   };
   const handleUpdate = (formValue) => {
     console.log("formValue", formValue);
     const { userId, password } = formValue;
@@ -67,7 +58,7 @@ const Login = (props) => {
       return;
     }
     setLoading(true);
-    if (values.role == "user") {
+    if (role == "student" || role == "teacher") {
       dispatch(updateUserProfile({ userId, password }))
         .unwrap()
         .then(() => {})
@@ -89,15 +80,12 @@ const Login = (props) => {
         });
     }
   };
-  // if (isLoggedIn) {
-  //   return <Navigate to="/dashboard" />;
-  // }
   return (
     <Card
       style={{
         width: "40vw",
-        height: "calc(100vh - 180px)",
         padding: "34px",
+        marginTop: "80px",
         boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
       }}
     >
@@ -130,7 +118,11 @@ const Login = (props) => {
               gutterBottom
               component="p"
             >
-              {user ? user.fullName : "Anonymous"}
+              {user && user.fullName
+                ? user.fullName
+                : user && user.firstName
+                ? user.firstName
+                : "Anonymous"}
             </Typography>
             <Typography
               style={{ fontSize: 12, fontWeight: "light", textAlign: "start" }}

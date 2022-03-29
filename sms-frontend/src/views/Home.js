@@ -81,6 +81,10 @@ export default function Home() {
       title: "Dashboard",
       route: "/dashboard",
     },
+    {
+      title: "Result",
+      route: "/result",
+    },    
   ];
   const [values, setValues] = useState({
     title: "",
