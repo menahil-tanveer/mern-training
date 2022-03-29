@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Formik, Field, Form, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { updateAdminProfile } from "../slices/admin";
+import { updateUserProfile } from "../slices/users";
+
 import { clearMessage } from "../slices/message";
 import { UpperCasingTextField, SimpleTextField } from "../utilities";
 import Card from "@material-ui/core/Card";
@@ -66,7 +68,7 @@ const Login = (props) => {
     }
     setLoading(true);
     if (values.role == "user") {
-      dispatch(updateAdminProfile({ adminId: userId, password }))
+      dispatch(updateUserProfile({ userId, password }))
         .unwrap()
         .then(() => {})
         .catch(() => {

@@ -15,7 +15,7 @@ import TextField from "@material-ui/core/TextField";
 import { MenuItem } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import { createNewUser } from "../slices/users";
+import { createNewUser, userAdded } from "../slices/users";
 import * as Yup from "yup";
 import { UpperCasingTextField, SimpleTextField } from "../utilities";
 import { Box } from "@mui/material";
@@ -127,16 +127,19 @@ export default function CustomizedDialogs() {
   });
   const handleCreate = (formValue) => {
     console.log("formValue", formValue);
-    // const { userId, fullName, email, password } = formValue;
     setLoading(true);
     dispatch(createNewUser(formValue))
       .unwrap()
       .then((res) => {
         console.log("create new user res", res);
+        dispatch(userAdded(formValue));
       })
       .catch((error) => {
         setLoading(false);
         console.log("create new user error", error);
+      })
+      .finally(() => {
+        handleClose();
       });
   };
   const handleClickShowPassword = () => {

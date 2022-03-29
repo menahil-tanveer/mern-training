@@ -7,17 +7,37 @@ export const createNewUser = createAsyncThunk(
   async (payload, thunkAPI) => {
     try {
       const response = await UserService.createNewUser(payload);
-      thunkAPI.dispatch(setMessage(response.data.message));
       return response.data;
     } catch (error) {
-      const message =
-        (error.response &&
-          error.response.data &&
-          error.response.data.message) ||
-        error.message ||
-        error.toString();
-      thunkAPI.dispatch(setMessage(message));
-      return thunkAPI.rejectWithValue();
+      return error;
+    }
+  }
+);
+export const updateUserProfile = createAsyncThunk(
+  "update/user-profile",
+  (payload, thunkAPI) => {
+    try {
+      const response = UserService.updateProfile(payload);
+      console.log("fetch res", response);
+      return response;
+    } catch (error) {
+      console.log("updateAdminProfile error", error);
+      thunkAPI.dispatch(setMessage(error));
+      return error;
+    }
+  }
+);
+export const deleteUserById = createAsyncThunk(
+  "update/delete-user",
+  (payload, thunkAPI) => {
+    try {
+      const response = UserService.deleteUserById(payload);
+      console.log("delete user slice res", response);
+      return response;
+    } catch (error) {
+      console.log("delete user slice error", error);
+      thunkAPI.dispatch(setMessage(error));
+      return error;
     }
   }
 );
@@ -35,6 +55,16 @@ const userSlice = createSlice({
   initialState: {
     allUsers: [],
   },
+  reducers: {
+    userAdded: (state, action) => {
+      state.allUsers.push(action.payload);
+    },
+    userDeleted: (state, action) => {
+      state.allUsers = state.allUsers.filter(
+        (user) => user.userId !== action.payload.userId
+      );
+    },
+  },
   extraReducers: {
     // ALL USERS
     [fetchAllUsers.fulfilled]: (state, action) => {
@@ -43,11 +73,21 @@ const userSlice = createSlice({
     },
     [fetchAllUsers.rejected]: (state, action) => {
       console.log("action rejected", action);
-      //   state = null;
+    },
+    [createNewUser.fulfilled]: (state, action) => {
+      console.log("createNewUser action fullfilled", action);
+    },
+    [createNewUser.rejected]: (state, action) => {
+      console.log("createNewUser action rejected", action);
+    },
+    [deleteUserById.fulfilled]: (state, action) => {
+      console.log("deleteUserById.fulfilled", action.payload);
     },
   },
 });
 const { reducer } = userSlice;
+export const { userAdded, userDeleted } = userSlice.actions;
+
 export default reducer;
 
 // SELECTORS

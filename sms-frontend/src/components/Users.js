@@ -12,13 +12,15 @@ import Button from "@material-ui/core/Button";
 import { Box } from "@material-ui/core";
 import AddNewUser from "../components/AddNewUser";
 
-import { fetchAllUsers, getAllUsers } from "../slices/users";
+import {
+  deleteUserById,
+  userDeleted,
+  fetchAllUsers,
+  getAllUsers,
+} from "../slices/users";
 const Users = () => {
   const dispatch = useDispatch();
   //   const { allUsers } = useSelector((state) => state.fetchAllUsers);
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
   const columns = [
     {
       title: "Name",
@@ -35,9 +37,9 @@ const Users = () => {
     {
       title: "Role",
     },
-    // {
-    //   title: "Courses",
-    // },
+    {
+      title: "Actions",
+    },
   ];
   useEffect(() => {
     dispatch(fetchAllUsers())
@@ -49,8 +51,18 @@ const Users = () => {
         console.log("error", error);
       });
   }, []);
+  const handleDelete = (id) => {
+    dispatch(deleteUserById({ userId: id }))
+      .unwrap()
+      .then((res) => {
+        console.log("user delete success", res);
+        dispatch(userDeleted({ userId: id }));
+      })
+      .catch((error) => {
+        console.log("user delete error", error);
+      });
+  };
   const usersList = useSelector(getAllUsers);
-  console.log("getAllUsers result", useSelector(getAllUsers));
   return (
     <React.Fragment>
       <Box
@@ -58,14 +70,6 @@ const Users = () => {
         justifyContent="end"
         style={{ width: "100%", marginBottom: "16px" }}
       >
-        {/* <Button
-          variant="contained"
-          disableElevation
-          color="secondary"
-          size="small"
-        >
-          + Add new user
-        </Button> */}
         <AddNewUser />
       </Box>
       <TableContainer component={Paper}>
@@ -82,20 +86,38 @@ const Users = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {usersList.map((row) => (
-              <TableRow style={{ maxHeight: "20px" }} key={row.userId}>
-                <TableCell component="th" scope="row">
-                  {row.firstName + " " + row.lastName}
+            {usersList.length &&
+              usersList.map((row) => (
+                <TableRow style={{ maxHeight: "20px" }} key={row.userId}>
+                  <TableCell component="th" scope="row">
+                    {row.firstName + " " + row.lastName}
+                  </TableCell>
+                  <TableCell align="right">{row.userId}</TableCell>
+                  <TableCell align="right">{row.email}</TableCell>
+                  <TableCell align="right">{row.secondaryEmail}</TableCell>
+                  <TableCell align="right">{row.role}</TableCell>
+                  <TableCell align="right">
+                    <Button
+                      variant="outlined"
+                      disableElevation
+                      style={{ color: "#f50057" }}
+                      size="small"
+                      onClick={() => {
+                        handleDelete(row.userId);
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </TableCell>
+                </TableRow>
+              ))}
+            {!usersList.length && (
+              <TableRow>
+                <TableCell style={{ textAlign: "center" }} colSpan={6}>
+                  <p>No Data Found</p>
                 </TableCell>
-                <TableCell align="right">{row.userId}</TableCell>
-                <TableCell align="right">{row.email}</TableCell>
-                <TableCell align="right">{row.secondaryEmail}</TableCell>
-                <TableCell align="right">{row.role}</TableCell>
-                {/* <TableCell align="right">
-                  {row.Courses.length ? row.Courses : "None"}
-                </TableCell> */}
               </TableRow>
-            ))}
+            )}
           </TableBody>
         </Table>
       </TableContainer>
