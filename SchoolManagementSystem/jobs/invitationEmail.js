@@ -5,7 +5,7 @@ const transporter = mailer.createTransport({
   service: "gmail",
   auth: {
     user: "mail.art.explosion@gmail.com",
-    pass: "",
+    pass: "A",
   },
 });
 /**
@@ -19,7 +19,7 @@ const sendEmail = (userData) => {
   transporter
     .sendMail({
       from: "<mail.art.explosion@gmail.com>",
-      to: `<${secondaryEmail}>`,
+      to: `<menahal.tanveer@invozone.com>`,
       subject: "SFS Login Credentials",
       text: `Signin to your official school account using the following credentials.
         Student ID:${userId}

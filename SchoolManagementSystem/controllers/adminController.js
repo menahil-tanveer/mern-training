@@ -144,8 +144,8 @@ const adminLogin = async (req, res) => {
       admin.update({
         token,
       });
-      res.status(200).json({ admin });
-    } else res.status(400).send("Invalid Credentials");
+      res.status(200).json({ admin, token });
+    } else res.status(400).json({ error: "Invalid Credentials" });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }

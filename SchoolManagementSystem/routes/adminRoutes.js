@@ -177,6 +177,6 @@ router.delete(
   [authenticateToken.verifyToken],
   adminController.deleteAdmin
 );
-router.post("/admin-login", adminController.adminLogin);
+router.post("/admin-login",[adminMiddleware.validateLoginCredentials] ,adminController.adminLogin);
 
 module.exports = router;

@@ -10,7 +10,7 @@ const login = async (req, res) => {
   //   res.json({ token: token });
   // });
   try {
-    console.log("process.env.TOKEN_SECRET",process.env.TOKEN_SECRET)
+    console.log("process.env.TOKEN_SECRET", process.env.TOKEN_SECRET);
     const user = await userModel.findOne({
       where: { userId: req.body.userId },
     });
@@ -28,8 +28,8 @@ const login = async (req, res) => {
       user.update({
         token,
       });
-      res.status(200).json({ user });
-    } else res.status(400).send("Invalid Credentials");
+      res.status(200).json({ user, token });
+    } else res.status(400).json({ error: "Invalid Credentials" });
   } catch (e) {
     res.status(500).json({ error: e.message });
   }
@@ -93,6 +93,7 @@ const getUserById = async (req, res) => {
       where: {
         userId: req.params.userId,
       },
+      include: courseModel,
     });
     if (!user) res.status(404).send("User not found!");
     else {

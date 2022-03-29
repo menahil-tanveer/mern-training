@@ -59,21 +59,43 @@ function validateUpdationData(req, res, next) {
       fullName: Joi.string()
         .regex(/^[A-Za-z ]+$/)
         .min(2)
-        .max(100)
-        .required(),
-      email: Joi.string()
-        .regex(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/)
-        .required(),
+        .max(100),
+      email: Joi.string().regex(
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+      ),
       password: Joi.string()
         .regex(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/) // Minimum 8 characters & at least one letter & one digit
         .min(8)
-        .max(50)
-        .required(),
+        .max(50),
       adminId: Joi.string()
         .regex(/^[A-Za-z0-9-]+$/)
         .min(2)
-        .max(50)
-        .required(),
+        .max(50),
+    });
+    const result = schema.validate(req.body);
+    if (result.error) {
+      {
+        return res.status(400).json({
+          success: false,
+          msg: result.error.details.map((i) => i.message).join(","),
+        });
+      }
+    } else next();
+  } catch (e) {
+    res.status(500).json({ error: e.message });
+  }
+}
+/**
+ * @param req
+ * @param res
+ * @param next
+ * @description This method is responsible for validating login input
+ */
+function validateLoginCredentials(req, res, next) {
+  try {
+    const schema = Joi.object().keys({
+      adminId: Joi.string().required(),
+      password: Joi.string().required(),
     });
     const result = schema.validate(req.body);
     if (result.error) {
@@ -91,4 +113,5 @@ function validateUpdationData(req, res, next) {
 module.exports = {
   validateAdmin,
   validateUpdationData,
+  validateLoginCredentials,
 };

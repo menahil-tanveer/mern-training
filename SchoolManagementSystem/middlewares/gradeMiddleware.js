@@ -61,9 +61,9 @@ async function validate(req, res, next) {
         userId,
       },
     });
-    if (!course) res.status(404).send("Course not found!");
+    if (!course) res.status(404).send({ error: "Course not found!" });
     else if (!user || user.role != "student")
-      res.status(404).send("Student not found!");
+      res.status(404).send({ error: "Student not found!" });
     else if (checkForExistingGrade)
       res
         .status(500)
@@ -71,7 +71,7 @@ async function validate(req, res, next) {
     else {
       grade.match(/^[AaBbCcDdFf][+-]?$/)
         ? next()
-        : res.status(500).send("Invalid grade");
+        : res.status(500).send({ error: "Invalid grade" });
     }
   } catch (e) {
     res.status(500).json({ error: e.message });
