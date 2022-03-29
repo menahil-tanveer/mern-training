@@ -97,7 +97,7 @@ export default function SignupForm(props) {
       .test(
         "len",
         "Name must not contain any digit or special character",
-        (val) => val && val.match(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/)
+        (val) => val && val.match(/^[A-Za-z ]+$/)
       ),
     email: Yup.string()
       .email("This is not a valid email.")

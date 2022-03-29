@@ -62,7 +62,7 @@ export default function Home() {
   const location = useLocation();
   const navigate = useNavigate();
   const classes = useStyles();
-  const links = [
+  const adminLinks = [
     {
       title: "Dashboard",
       route: "/dashboard",
@@ -74,6 +74,12 @@ export default function Home() {
     {
       title: "Courses",
       route: "/courses",
+    },
+  ];
+  const links = [
+    {
+      title: "Dashboard",
+      route: "/dashboard",
     },
   ];
   const [values, setValues] = useState({
@@ -136,34 +142,54 @@ export default function Home() {
         </Box>
         {/* <Divider /> */}
         <div className={classes.toolbar} />
-        <List style={{ background: "" }}>
-          {links.map((element, index) => (
-            <ListItem button key={index}>
-              <ListItemIcon>
-                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-              </ListItemIcon>
-              <ListItemText
-                onClick={() => {
-                  setView(element.title);
-                }}
-                to="${element.route}"
-                primary={element.title}
-              />
-            </ListItem>
-          ))}
-        </List>
+        {role == "admin" && (
+          <List style={{ background: "" }}>
+            {adminLinks.map((element, index) => (
+              <ListItem button key={index}>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText
+                  onClick={() => {
+                    setView(element.title);
+                  }}
+                  to="${element.route}"
+                  primary={element.title}
+                />
+              </ListItem>
+            ))}
+          </List>
+        )}
+        {role !== "admin" && (
+          <List style={{ background: "" }}>
+            {links.map((element, index) => (
+              <ListItem button key={index}>
+                <ListItemIcon>
+                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                </ListItemIcon>
+                <ListItemText
+                  onClick={() => {
+                    setView(element.title);
+                  }}
+                  to="${element.route}"
+                  primary={element.title}
+                />
+              </ListItem>
+            ))}
+          </List>
+        )}
       </Drawer>
       <main className={classes.content}>
         <div className={classes.toolbar} />
         {values.view == "Dashboard" ? (
           <p>Dashboard</p>
-        ) : values.view == "Users" ? (
+        ) : values.view == "Users" && role == "admin" ? (
           <Users />
-        ) : values.view == "Courses" ? (
+        ) : values.view == "Courses" && role == "admin" ? (
           <Courses />
         ) : values.view == "profileSettings" ? (
           <ProfileSettings />
-        ) : values.view == "addNewAdmin" ? (
+        ) : values.view == "addNewAdmin" && role == "admin" ? (
           "NEW ADMIN"
         ) : (
           "default"
