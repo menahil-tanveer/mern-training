@@ -97,7 +97,7 @@ const Profile = (props) => {
         </MenuItem>
         <Divider />
 
-        <MenuItem onClick={() => props.onProfileSettings("profileSettings")}>
+        <MenuItem onClick={() => props.onProfileSettings("Profile Settings")}>
           <ListItemIcon>{/* <Settings fontSize="small" /> */}</ListItemIcon>
           Settings
         </MenuItem>

@@ -1,9 +1,7 @@
 import axios from "axios";
 import authHeader from "./auth-header";
 const API_URL = "http://localhost:8082/api/";
-// const getPublicContent = () => {
-//   return axios.get(API_URL + "all");
-// };
+
 const getAllUsers = () => {
   return axios.get(API_URL + "users/get-all-users", { headers: authHeader() });
 };
@@ -56,18 +54,38 @@ const deleteUserById = async (payload) => {
       console.log("user delete api error:", error);
     });
 };
+const getUserById = async (payload) => {
+  return await axios.get(API_URL + `users/get-user/${payload.userId}`, {
+    headers: authHeader(),
+  });
+};
+const enrollCourse = async (payload) => {
+  return await axios
+    .post(API_URL + `users/assign-course`, payload, {
+      headers: authHeader(),
+    })
+    .then((response) => {
+      if (response.data) {
+        console.log("/assign-course api res", response.data);
+      }
+      return response.data;
+    })
+    .catch((error) => {
+      console.log("/assign-course api error:", error);
+    });
+};
 const getAllTeachers = () => {
   return axios.get(API_URL + "users/get-all-teachers", {
     headers: authHeader(),
   });
 };
 const userService = {
-  //   getPublicContent,
   getAllUsers,
-  //   getAllCourses,
+  getUserById,
   getAllTeachers,
   createNewUser,
   updateProfile,
   deleteUserById,
+  enrollCourse,
 };
 export default userService;

@@ -64,7 +64,7 @@ export default function CustomizedDialogs() {
   const [open, setOpen] = React.useState(false);
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState({
-    showPassword: false,
+    showPassword: true,
   });
   const dispatch = useDispatch();
   const handleClickOpen = () => {
@@ -79,7 +79,7 @@ export default function CustomizedDialogs() {
     lastName: "",
     email: "",
     secondaryEmail: "",
-    password: "",
+    password: "12345678Q",
     role: "student",
   };
   const validationSchema = Yup.object().shape({

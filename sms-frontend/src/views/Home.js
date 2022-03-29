@@ -5,7 +5,7 @@
  */
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-
+import { fetchUserById } from "../slices/users";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { makeStyles } from "@material-ui/core/styles";
@@ -27,6 +27,7 @@ import Users from "../components/Users";
 import Courses from "../components/courses/Courses";
 import Profile from "../components/Profile";
 import ProfileSettings from "../components/ProfileSettings";
+import UserDashboard from "../components/UserDashboard";
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -81,10 +82,10 @@ export default function Home() {
       title: "Dashboard",
       route: "/dashboard",
     },
-    {
-      title: "Result",
-      route: "/result",
-    },    
+    // {
+    //   title: "Result",
+    //   route: "/result",
+    // },
   ];
   const [values, setValues] = useState({
     title: "",
@@ -96,12 +97,23 @@ export default function Home() {
   const handleProfileSettings = (view) => {
     console.log("child view is", view);
   };
+  const dispatch = useDispatch();
   useEffect(() => {
     if (isLoggedIn) {
-      console.log("here");
+      console.log("here in isLoggedIn");
       navigate("/dashboard", { replace: true });
+      if (role == "student" || role == "teacher") {
+        console.log("dispatch fetch request");
+        dispatch(fetchUserById({ userId: user.userId }))
+          .unwrap()
+          .then((res) => {
+            console.log("user", res);
+          })
+          .catch((error) => {
+            console.log("error", error);
+          });
+      }
     } else {
-      console.log("here in else");
       navigate("/login", { replace: true });
     }
   }, [isLoggedIn]);
@@ -119,7 +131,7 @@ export default function Home() {
             <Box display="flex" flexGrow={1}>
               {" "}
               <Typography variant="h6" noWrap>
-                {values.title}
+                {values.view}
               </Typography>
             </Box>
             <Box display="flex">
@@ -186,12 +198,16 @@ export default function Home() {
       <main className={classes.content}>
         <div className={classes.toolbar} />
         {values.view == "Dashboard" ? (
-          <p>Dashboard</p>
+          role == "student" || role == "teacher" ? (
+            <UserDashboard />
+          ) : (
+            "admin dashboard"
+          )
         ) : values.view == "Users" && role == "admin" ? (
           <Users />
         ) : values.view == "Courses" && role == "admin" ? (
           <Courses />
-        ) : values.view == "profileSettings" ? (
+        ) : values.view == "Profile Settings" ? (
           <ProfileSettings />
         ) : values.view == "addNewAdmin" && role == "admin" ? (
           "NEW ADMIN"

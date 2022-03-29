@@ -50,10 +50,34 @@ export const fetchAllUsers = createAsyncThunk("fetch/all-users", async () => {
     return error;
   }
 });
+export const fetchUserById = createAsyncThunk(
+  "fetch/current-user",
+  async (payload, thunkAPI) => {
+    try {
+      const response = await UserService.getUserById(payload);
+      console.log("fetch res", response);
+      return response.data;
+    } catch (error) {
+      return error;
+    }
+  }
+);
+export const enrollCourse = createAsyncThunk(
+  "enroll/course",
+  async (payload, thunkAPI) => {
+    try {
+      const response = await UserService.enrollCourse(payload);
+      return response.data;
+    } catch (error) {
+      return error;
+    }
+  }
+);
 const userSlice = createSlice({
   name: "users",
   initialState: {
     allUsers: [],
+    currentUser: "",
   },
   reducers: {
     userAdded: (state, action) => {
@@ -64,6 +88,9 @@ const userSlice = createSlice({
         (user) => user.userId !== action.payload.userId
       );
     },
+    courseEnrolled: (state, action) => {
+      state.currentUser.Courses.push(action.payload);
+    },
   },
   extraReducers: {
     // ALL USERS
@@ -72,6 +99,14 @@ const userSlice = createSlice({
       state.allUsers = action.payload;
     },
     [fetchAllUsers.rejected]: (state, action) => {
+      console.log("action rejected", action);
+    },
+    // CURRENT USER
+    [fetchUserById.fulfilled]: (state, action) => {
+      console.log("fetchUserById fulfilled action.payload", action.payload);
+      state.currentUser = action.payload;
+    },
+    [fetchUserById.rejected]: (state, action) => {
       console.log("action rejected", action);
     },
     [createNewUser.fulfilled]: (state, action) => {
@@ -86,9 +121,11 @@ const userSlice = createSlice({
   },
 });
 const { reducer } = userSlice;
-export const { userAdded, userDeleted } = userSlice.actions;
+export const { userAdded, userDeleted, courseEnrolled } = userSlice.actions;
 
 export default reducer;
 
 // SELECTORS
 export const getAllUsers = (state) => state.users.allUsers.map((user) => user);
+export const getCurrentUser = (state) => state.users.currentUser;
+export const getCurrentUserCourses = (state) => state.users.currentUser.Courses;
