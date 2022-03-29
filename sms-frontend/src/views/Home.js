@@ -24,7 +24,7 @@ import MailIcon from "@material-ui/icons/Mail";
 import { Box } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import Users from "../components/Users";
-import Courses from "../components/Courses";
+import Courses from "../components/courses/Courses";
 import Profile from "../components/Profile";
 import ProfileSettings from "../components/ProfileSettings";
 const drawerWidth = 240;

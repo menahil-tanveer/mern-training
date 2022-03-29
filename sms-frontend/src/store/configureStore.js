@@ -20,12 +20,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "../slices/auth";
 import userReducer from "../slices/users";
 import adminReducer from "../slices/admin";
-
+import courseReducer from "../slices/course";
 import messageReducer from "../slices/message";
 const reducer = {
   auth: authReducer,
   message: messageReducer,
   users: userReducer,
+  courses: courseReducer,
   admin: adminReducer,
 };
 export default function () {

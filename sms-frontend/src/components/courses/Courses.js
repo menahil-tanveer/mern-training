@@ -10,59 +10,52 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@material-ui/core/Button";
 import { Box } from "@material-ui/core";
-import AddNewUser from "../components/AddNewUser";
+import AddNewCourse from "../../components/courses/AddNewCourse";
 
 import {
-  deleteUserById,
-  userDeleted,
-  fetchAllUsers,
-  getAllUsers,
-} from "../slices/users";
+  deleteCourseById,
+  courseDeleted,
+  fetchAllCourses,
+  getAllCourses,
+} from "../../slices/course";
 const Users = () => {
   const dispatch = useDispatch();
-  //   const { allUsers } = useSelector((state) => state.fetchAllUsers);
   const columns = [
     {
-      title: "Name",
+      title: "Course Name",
     },
     {
-      title: "ID",
+      title: "Course ID",
     },
     {
-      title: "Primary Email",
-    },
-    {
-      title: "Secondary Email",
-    },
-    {
-      title: "Role",
+      title: "Credit Hours",
     },
     {
       title: "Actions",
     },
   ];
   useEffect(() => {
-    dispatch(fetchAllUsers())
+    dispatch(fetchAllCourses())
       .unwrap()
       .then((res) => {
-        console.log("users", res);
+        console.log("courses", res);
       })
       .catch((error) => {
         console.log("error", error);
       });
   }, []);
   const handleDelete = (id) => {
-    dispatch(deleteUserById({ userId: id }))
+    dispatch(deleteCourseById({ courseId: id }))
       .unwrap()
       .then((res) => {
-        console.log("user delete success", res);
-        dispatch(userDeleted({ userId: id }));
+        console.log("course delete success", res);
+        dispatch(courseDeleted({ courseId: id }));
       })
       .catch((error) => {
-        console.log("user delete error", error);
+        console.log("course delete error", error);
       });
   };
-  const usersList = useSelector(getAllUsers);
+  const courseList = useSelector(getAllCourses);
   return (
     <React.Fragment>
       <Box
@@ -70,7 +63,7 @@ const Users = () => {
         justifyContent="end"
         style={{ width: "100%", marginBottom: "16px" }}
       >
-        <AddNewUser />
+        <AddNewCourse />
       </Box>
       <TableContainer component={Paper}>
         <Table
@@ -86,16 +79,14 @@ const Users = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {usersList.length &&
-              usersList.map((row) => (
-                <TableRow style={{ maxHeight: "20px" }} key={row.userId}>
+            {courseList.length &&
+              courseList.map((row) => (
+                <TableRow style={{ maxHeight: "20px" }} key={row.courseId}>
                   <TableCell component="th" scope="row">
-                    {row.firstName + " " + row.lastName}
+                    {row.courseName}
                   </TableCell>
-                  <TableCell align="left">{row.userId}</TableCell>
-                  <TableCell align="left">{row.email}</TableCell>
-                  <TableCell align="left">{row.secondaryEmail}</TableCell>
-                  <TableCell align="left">{row.role}</TableCell>
+                  <TableCell align="left">{row.courseId}</TableCell>
+                  <TableCell align="left">{row.creditHours}</TableCell>
                   <TableCell align="left">
                     <Button
                       variant="outlined"
@@ -103,7 +94,7 @@ const Users = () => {
                       style={{ color: "#f50057" }}
                       size="small"
                       onClick={() => {
-                        handleDelete(row.userId);
+                        handleDelete(row.courseId);
                       }}
                     >
                       Delete
@@ -111,7 +102,7 @@ const Users = () => {
                   </TableCell>
                 </TableRow>
               ))}
-            {!usersList.length && (
+            {!courseList.length && (
               <TableRow>
                 <TableCell style={{ textAlign: "center" }} colSpan={6}>
                   <p>No Data Found</p>
