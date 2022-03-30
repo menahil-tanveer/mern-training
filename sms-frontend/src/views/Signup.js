@@ -154,7 +154,6 @@ export default function SignupForm(props) {
         // history.push("/admin-dashboard");
       })
       .catch((error) => {
-        console.log("error is??????", error);
         openSnackbar("Err! Something went wrong");
       });
   };

@@ -105,16 +105,11 @@ export default function Home() {
   const setView = (view) => {
     setValues({ ...values, view });
   };
-  const handleProfileSettings = (view) => {
-    console.log("child view is", view);
-  };
   const dispatch = useDispatch();
   useEffect(() => {
     if (isLoggedIn) {
-      console.log("here in isLoggedIn");
       navigate("/dashboard", { replace: true });
       if (role == "student" || role == "teacher") {
-        console.log("dispatch fetch request");
         dispatch(fetchUserById({ userId: user.userId }))
           .unwrap()
           .then((res) => {

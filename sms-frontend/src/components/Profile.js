@@ -45,7 +45,7 @@ const Profile = (props) => {
             aria-expanded={open ? "true" : undefined}
           >
             <Avatar
-              style={{ background: "#ff4569" }}
+              style={{ background: "#f50057" }}
               sx={{ width: 32, height: 32 }}
             >
               M

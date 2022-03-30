@@ -72,9 +72,7 @@ const Login = (props) => {
       };
       dispatch(updateAdminProfile(payload))
         .unwrap()
-        .then((res) => {
-          console.log("comp res", res);
-        })
+        .then((res) => {})
         .catch(() => {
           setLoading(false);
         });
@@ -193,20 +191,6 @@ const Login = (props) => {
         )}
       </CardContent>
       <CardActions>
-        {/* <Box
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            className="p-2"
-            style={{ width: "100%", fontSize: "10px", color: "grey" }}
-          >
-            Copyright{" "}
-            <CopyrightIcon
-              style={{ marginLeft: "2px", marginRight: "4px" }}
-              fontSize="inherit"
-            />{" "}
-            your website 2022
-          </Box> */}
       </CardActions>
     </Card>
   );

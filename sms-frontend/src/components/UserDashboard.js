@@ -34,7 +34,6 @@ const UserDashboard = () => {
   const dispatch = useDispatch();
   const registeredCourses = useSelector(getCurrentUserCourses);
   const currentUser = useSelector(getCurrentUser);
-  console.log("currentUser:::::", currentUser.role);
   useEffect(() => {
     dispatch(fetchAllCourses())
       .unwrap()
@@ -104,7 +103,16 @@ const UserDashboard = () => {
               {registeredCourses && registeredCourses.length ? (
                 registeredCourses.map((row) => (
                   <TableRow style={{ maxHeight: "20px" }} key={row.courseId}>
-                    <TableCell align="left">{row.courseId}</TableCell>
+                    <TableCell align="left">
+                      <Typography
+                        variant="body1"
+                        gutterBottom
+                        component="div"
+                        style={{ fontWeight: "bold" }}
+                      >
+                        {row.courseId}
+                      </Typography>
+                    </TableCell>
                     <TableCell align="left" component="th" scope="row">
                       <Typography variant="body1" gutterBottom component="div">
                         {row.courseName}
