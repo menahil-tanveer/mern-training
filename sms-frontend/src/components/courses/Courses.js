@@ -10,8 +10,10 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@material-ui/core/Button";
 import { Box } from "@material-ui/core";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Chip from "@mui/material/Chip";
 import AddNewCourse from "../../components/courses/AddNewCourse";
-
+import { useStyles } from "../Users";
 import {
   deleteCourseById,
   courseDeleted,
@@ -20,6 +22,7 @@ import {
 } from "../../slices/course";
 const Users = () => {
   const dispatch = useDispatch();
+  const classes = useStyles();
   const columns = [
     {
       title: "Course Name",
@@ -74,10 +77,16 @@ const Users = () => {
           size="small"
           aria-label="a dense table"
         >
-          <TableHead>
+          <TableHead className={classes.tableHeader}>
             <TableRow>
               {columns.map((column, index) => (
-                <TableCell key={index}>{column.title}</TableCell>
+                <TableCell
+                  style={{ color: "white", fontWeight: "bold" }}
+                  key={index}
+                  align="center"
+                >
+                  {column.title}
+                </TableCell>
               ))}
             </TableRow>
           </TableHead>
@@ -85,14 +94,29 @@ const Users = () => {
             {courseList.length &&
               courseList.map((row) => (
                 <TableRow style={{ maxHeight: "20px" }} key={row.courseId}>
-                  <TableCell component="th" scope="row">
+                  <TableCell align="center" style={{ fontWeight: "bold" }}>
+                    {row.courseId}
+                  </TableCell>
+                  <TableCell
+                    align="left"
+                    style={{ padding: "0px 0px 0px 80px" }}
+                    component="th"
+                    scope="row"
+                  >
                     {row.courseName}
                   </TableCell>
-                  <TableCell align="left">{row.courseId}</TableCell>
-                  <TableCell align="left">{row.creditHours}</TableCell>
-                  <TableCell align="left">
+
+                  <TableCell align="center">
+                    <Chip
+                      label={row.creditHours}
+                      style={{
+                        color: "white",
+                        backgroundColor: "#0d47a1",
+                      }}
+                    ></Chip>
+                  </TableCell>
+                  <TableCell align="center">
                     <Button
-                      variant="outlined"
                       disableElevation
                       style={{ color: "#f50057" }}
                       size="small"
@@ -100,7 +124,7 @@ const Users = () => {
                         handleDelete(row.courseId);
                       }}
                     >
-                      Delete
+                      <DeleteIcon />
                     </Button>
                   </TableCell>
                 </TableRow>

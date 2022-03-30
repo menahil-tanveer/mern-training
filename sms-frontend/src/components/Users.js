@@ -11,6 +11,9 @@ import Paper from "@mui/material/Paper";
 import Button from "@material-ui/core/Button";
 import { Box } from "@material-ui/core";
 import AddNewUser from "../components/AddNewUser";
+import Chip from "@mui/material/Chip";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { makeStyles } from "@material-ui/core/styles";
 
 import {
   deleteUserById,
@@ -18,7 +21,24 @@ import {
   fetchAllUsers,
   getAllUsers,
 } from "../slices/users";
+export const useStyles = makeStyles((theme) => ({
+  boldText: {
+    fontWeight: "bold",
+  },
+  tableHeader: {
+    backgroundColor: "#212121",
+    height: "50px",
+  },
+  tableCellHeight: {
+    height: "20px !important",
+    },
+    headerText: {
+      color:"white"
+  }
+}));
 const Users = () => {
+  const classes = useStyles();
+  console.log("***classes****", classes);
   const dispatch = useDispatch();
   //   const { allUsers } = useSelector((state) => state.fetchAllUsers);
   const columns = [
@@ -68,7 +88,7 @@ const Users = () => {
       <Box
         display="flex"
         justifyContent="end"
-        style={{ width: "100%", marginBottom: "16px" }}
+        style={{ width: "calc(100vw - 300px)", marginBottom: "16px" }}
       >
         <AddNewUser />
       </Box>
@@ -81,27 +101,43 @@ const Users = () => {
           size="small"
           aria-label="a dense table"
         >
-          <TableHead>
+          <TableHead className={classes.tableHeader}>
             <TableRow>
               {columns.map((column, index) => (
-                <TableCell key={index}>{column.title}</TableCell>
+                <TableCell
+                      style={{ color: "white", fontWeight: "bold" }}
+                  key={index}
+                >
+                  {column.title}
+                </TableCell>
               ))}
             </TableRow>
           </TableHead>
           <TableBody>
             {usersList.length &&
               usersList.map((row) => (
-                <TableRow style={{ maxHeight: "20px" }} key={row.userId}>
+                <TableRow key={row.userId}>
+                  <TableCell align="left" style={{ fontWeight: "bold" }}>
+                    {row.userId}
+                  </TableCell>
                   <TableCell component="th" scope="row">
                     {row.firstName + " " + row.lastName}
                   </TableCell>
-                  <TableCell align="left">{row.userId}</TableCell>
                   <TableCell align="left">{row.email}</TableCell>
                   <TableCell align="left">{row.secondaryEmail}</TableCell>
-                  <TableCell align="left">{row.role}</TableCell>
+                  <TableCell align="left">
+                    <Chip
+                      label={row.role}
+                      //row.role == "teacher" ? "secondary" : "primary"
+                      style={{
+                        color: "white",
+                        backgroundColor:
+                          row.role == "teacher" ? "#f50057" : "#212121",
+                      }}
+                    ></Chip>
+                  </TableCell>
                   <TableCell align="left">
                     <Button
-                      variant="outlined"
                       disableElevation
                       style={{ color: "#f50057" }}
                       size="small"
@@ -109,7 +145,7 @@ const Users = () => {
                         handleDelete(row.userId);
                       }}
                     >
-                      Delete
+                      <DeleteIcon />
                     </Button>
                   </TableCell>
                 </TableRow>

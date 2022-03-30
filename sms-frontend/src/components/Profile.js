@@ -12,8 +12,8 @@ import Typography from "@mui/material/Typography";
 import Tooltip from "@mui/material/Tooltip";
 import { logout } from "../slices/auth";
 // import PersonAdd from "@mui/icons-material";
-// import Settings from "@mui/icons-material";
-// import Logout from "@mui/icons-material";
+import SettingsIcon from "@mui/icons-material/Settings";
+import LogoutIcon from "@mui/icons-material/Logout";
 const Profile = (props) => {
   const user = JSON.parse(localStorage.getItem("user"));
   const navigate = useNavigate();
@@ -32,7 +32,6 @@ const Profile = (props) => {
     navigate("/login", { replace: true });
     window.location.reload();
   }, [dispatch]);
-  console.log("role", role);
   return (
     <React.Fragment>
       <Box sx={{ display: "flex", alignItems: "center", textAlign: "center" }}>
@@ -90,12 +89,19 @@ const Profile = (props) => {
         anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <MenuItem>
-          <Avatar style={{ height: "30px", width: "30px", color: "grey" }} />{" "}
+          <Avatar
+            style={{
+              height: "30px",
+              width: "30px",
+              color: "white",
+              background: "black",
+            }}
+          />{" "}
           <Box display="flex" flexDirection="column">
-            <Typography>
+            <Typography style={{ fontWeight: "bold" }}>
               {role == "admin" ? user.fullName : user.firstName}
             </Typography>
-            <small style={{ color: "grey" }}>
+            <small style={{ color: "#f50057" }}>
               {user && user.email ? user.email : "no email"}
             </small>
           </Box>
@@ -103,11 +109,15 @@ const Profile = (props) => {
         <Divider />
 
         <MenuItem onClick={() => props.onProfileSettings("Profile Settings")}>
-          <ListItemIcon>{/* <Settings fontSize="small" /> */}</ListItemIcon>
+          <ListItemIcon style={{ color: "black" }}>
+            <SettingsIcon fontSize="small" />
+          </ListItemIcon>
           Settings
         </MenuItem>
         <MenuItem onClick={logOut}>
-          <ListItemIcon>{/* <Logout fontSize="small" /> */}</ListItemIcon>
+          <ListItemIcon style={{ color: "black" }}>
+            <LogoutIcon fontSize="small" />
+          </ListItemIcon>
           Logout
         </MenuItem>
       </Menu>

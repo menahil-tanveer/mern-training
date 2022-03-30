@@ -1,7 +1,7 @@
 /**
  * Author: Menahil
  * Date: 22-03-22
- * Purpose: This component contains user statistics
+ * Purpose:
  */
 import React, { useState, useEffect, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +15,6 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -24,9 +23,8 @@ import MailIcon from "@material-ui/icons/Mail";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import GroupIcon from "@mui/icons-material/Group";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
-import GroupWorkIcon from "@mui/icons-material/GroupWork";
+
 import { Box } from "@material-ui/core";
-import { Link } from "react-router-dom";
 import Users from "../components/Users";
 import Courses from "../components/courses/Courses";
 import Profile from "../components/Profile";
@@ -71,7 +69,6 @@ export default function Home() {
   const user = JSON.parse(localStorage.getItem("user"));
   const { isLoggedIn, role } = useSelector((state) => state.auth);
 
-  const location = useLocation();
   const navigate = useNavigate();
   const classes = useStyles();
   const adminLinks = [
@@ -169,12 +166,12 @@ export default function Home() {
           style={{
             height: "64px",
             color: "#f50057",
-            fontSize: "32px",
+            fontSize: "48px",
             fontWeight: "bold",
-            padding: "16px",
+            paddingTop: "32px",
           }}
         >
-          <GroupWorkIcon fontSize="large" style={{ marginRight: "8px" }} /> SFS
+          SFS
         </Box>
 
         <div className={classes.toolbar} />
@@ -183,7 +180,7 @@ export default function Home() {
             {adminLinks.map((element, index) => (
               <ListItem
                 style={{
-                  borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
+                  borderBottom: "1px solid #424242",
                   padding: "18px",
                 }}
                 className={
