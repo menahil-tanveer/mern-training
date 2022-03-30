@@ -9,7 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@material-ui/core/Button";
-import { Box } from "@material-ui/core";
+import { Box,Typography } from "@material-ui/core";
 import AddNewUser from "../components/AddNewUser";
 import Chip from "@mui/material/Chip";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -31,14 +31,13 @@ export const useStyles = makeStyles((theme) => ({
   },
   tableCellHeight: {
     height: "20px !important",
-    },
-    headerText: {
-      color:"white"
-  }
+  },
+  headerText: {
+    color: "white",
+  },
 }));
 const Users = () => {
   const classes = useStyles();
-  console.log("***classes****", classes);
   const dispatch = useDispatch();
   //   const { allUsers } = useSelector((state) => state.fetchAllUsers);
   const columns = [
@@ -105,10 +104,12 @@ const Users = () => {
             <TableRow>
               {columns.map((column, index) => (
                 <TableCell
-                      style={{ color: "white", fontWeight: "bold" }}
+                  style={{ color: "white", fontWeight: "bold" }}
                   key={index}
                 >
-                  {column.title}
+                  <Typography variant="subtitle1" gutterBottom component="div">
+                    {column.title}
+                  </Typography>
                 </TableCell>
               ))}
             </TableRow>

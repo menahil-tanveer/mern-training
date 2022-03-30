@@ -12,9 +12,11 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@material-ui/core/Button";
-import { Box } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
+import Chip from "@mui/material/Chip";
 import EnrollCourse from "../components/EnrollCourse";
 import AssignGrade from "../components/AssignGrade";
+import { useStyles } from "./Users";
 const columns = [
   {
     title: "Course Id",
@@ -28,6 +30,7 @@ const columns = [
 ];
 
 const UserDashboard = () => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const registeredCourses = useSelector(getCurrentUserCourses);
   const currentUser = useSelector(getCurrentUser);
@@ -45,10 +48,16 @@ const UserDashboard = () => {
   return (
     <React.Fragment>
       <div>
-        <h1 style={{ textAlign: "start" }}>Registered Courses</h1>
         {currentUser.role === "student" ? (
-          <Box display="flex" justifyContent="end">
-            <EnrollCourse />
+          <Box display="flex">
+            <Box display="flex" flexGrow={1}>
+              <Typography variant="h5" component="div" gutterBottom>
+                Registered Courses
+              </Typography>
+            </Box>
+            <Box>
+              <EnrollCourse />
+            </Box>
           </Box>
         ) : (
           <Box
@@ -68,14 +77,26 @@ const UserDashboard = () => {
           component={Paper}
         >
           <Table
-            sx={{ minWidth: 650, minHeight: "400px" }}
+            sx={{ width: "calc(100vw - 300px)", minHeight: "400px" }}
             size="small"
             aria-label="a dense table"
           >
-            <TableHead>
+            <TableHead className={classes.tableHeader}>
               <TableRow>
                 {columns.map((column, index) => (
-                  <TableCell key={index}>{column.title}</TableCell>
+                  <TableCell
+                    style={{ color: "white" }}
+                    align="left"
+                    key={index}
+                  >
+                    <Typography
+                      variant="subtitle1"
+                      gutterBottom
+                      component="div"
+                    >
+                      {column.title}
+                    </Typography>
+                  </TableCell>
                 ))}
               </TableRow>
             </TableHead>
@@ -83,16 +104,28 @@ const UserDashboard = () => {
               {registeredCourses && registeredCourses.length ? (
                 registeredCourses.map((row) => (
                   <TableRow style={{ maxHeight: "20px" }} key={row.courseId}>
-                    <TableCell component="th" scope="row">
-                      {row.courseName}
-                    </TableCell>
                     <TableCell align="left">{row.courseId}</TableCell>
-                    <TableCell align="left">{row.creditHours}</TableCell>
+                    <TableCell align="left" component="th" scope="row">
+                      <Typography variant="body1" gutterBottom component="div">
+                        {row.courseName}
+                      </Typography>
+                    </TableCell>
+
+                    <TableCell align="left">
+                      <Chip
+                        label={row.creditHours}
+                        style={{
+                          color: "white",
+                          backgroundColor: "#0d47a1",
+                          marginLeft: "32px",
+                        }}
+                      ></Chip>
+                    </TableCell>
                   </TableRow>
                 ))
               ) : (
                 <TableRow>
-                  <TableCell style={{ textAlign: "center" }} colSpan={6}>
+                  <TableCell style={{ textAlign: "left" }} colSpan={6}>
                     <p>No Courses Registered</p>
                   </TableCell>
                 </TableRow>

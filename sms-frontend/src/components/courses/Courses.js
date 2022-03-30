@@ -9,7 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@material-ui/core/Button";
-import { Box } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Chip from "@mui/material/Chip";
 import AddNewCourse from "../../components/courses/AddNewCourse";
@@ -85,7 +85,9 @@ const Users = () => {
                   key={index}
                   align="center"
                 >
-                  {column.title}
+                  <Typography variant="subtitle1" gutterBottom component="div">
+                    {column.title}
+                  </Typography>
                 </TableCell>
               ))}
             </TableRow>

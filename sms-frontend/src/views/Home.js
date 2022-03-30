@@ -203,9 +203,15 @@ export default function Home() {
         {role !== "admin" && (
           <List style={{ background: "" }}>
             {links.map((element, index) => (
-              <ListItem button key={index}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              <ListItem
+                className={
+                  element.title == values.view ? classes.selectedTab : ""
+                }
+                button
+                key={index}
+              >
+                <ListItemIcon style={{ color: "white" }}>
+                  {element.icon}
                 </ListItemIcon>
                 <ListItemText
                   onClick={() => {
