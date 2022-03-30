@@ -25,10 +25,10 @@ const Users = () => {
   const classes = useStyles();
   const columns = [
     {
-      title: "Course Name",
+      title: "Course ID",
     },
     {
-      title: "Course ID",
+      title: "Course Name",
     },
     {
       title: "Credit Hours",

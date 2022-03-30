@@ -5,16 +5,12 @@ import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
-import { signUp } from "../store/middleware/auth";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from "@material-ui/core/TextField";
 import { MenuItem } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { Formik, Field, Form, ErrorMessage } from "formik";
+import { Formik, Field, Form } from "formik";
 import { createNewUser, userAdded } from "../slices/users";
 import * as Yup from "yup";
 import { UpperCasingTextField, SimpleTextField } from "../utilities";
@@ -166,7 +162,7 @@ export default function CustomizedDialogs() {
         open={open}
       >
         <BootstrapDialogTitle
-          style={{ width: "460px", background: "" }}
+          style={{ width: "560px", background: "" }}
           id="customized-dialog-title"
           onClose={handleClose}
         >
@@ -215,22 +211,26 @@ export default function CustomizedDialogs() {
                   </Field>
                 </Box>
               </Box>
-              <Box style={{ marginTop: "26px" }}>
+              <Box
+                style={{ marginTop: "26px" }}
+                display="flex"
+                justifyContent="space-between"
+              >
                 <Field
                   component={UpperCasingTextField}
                   name="firstName"
                   type="text"
                   label="First name"
                   helperText=""
+                  style={{ marginRight: "8px" }}
                 />
-              </Box>
-              <Box style={{ marginTop: "26px" }}>
                 <Field
                   component={UpperCasingTextField}
                   name="lastName"
                   type="text"
                   label="Last name"
                   helperText=""
+                  style={{ marginLeft: "8px" }}
                 />
               </Box>
               <Box style={{ marginTop: "26px" }}>

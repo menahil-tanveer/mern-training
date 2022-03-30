@@ -241,9 +241,13 @@ const Login = (props) => {
       )} */}
         </CardContent>
         <CardActions style={{ display: "flex", flexDirection: "column" }}>
-          <p style={{ fontSize: "12px" }}>
-            Don't have an account? <Link to="/sign-up">Sign Up</Link>
-          </p>
+          {values.role == "admin" ? (
+            <p style={{ fontSize: "12px" }}>
+              Don't have an account? <Link to="/sign-up">Sign Up</Link>
+            </p>
+          ) : (
+            ""
+          )}
 
           <Box
             display="flex"

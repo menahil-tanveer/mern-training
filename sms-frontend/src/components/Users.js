@@ -9,7 +9,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Button from "@material-ui/core/Button";
-import { Box,Typography } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import AddNewUser from "../components/AddNewUser";
 import Chip from "@mui/material/Chip";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -42,10 +42,10 @@ const Users = () => {
   //   const { allUsers } = useSelector((state) => state.fetchAllUsers);
   const columns = [
     {
-      title: "Name",
+      title: "ID",
     },
     {
-      title: "ID",
+      title: "Name",
     },
     {
       title: "Primary Email",
