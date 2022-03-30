@@ -15,12 +15,16 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import List from "@material-ui/core/List";
 import Typography from "@material-ui/core/Typography";
-// import Divider from "@material-ui/core/Divider";
+import Divider from "@material-ui/core/Divider";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import MailIcon from "@material-ui/icons/Mail";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import GroupIcon from "@mui/icons-material/Group";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import GroupWorkIcon from "@mui/icons-material/GroupWork";
 import { Box } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import Users from "../components/Users";
@@ -46,6 +50,9 @@ const useStyles = makeStyles((theme) => ({
   },
   drawerPaper: {
     width: drawerWidth,
+    // backgroundColor: "#263238",
+    backgroundColor: "#212121",
+    color: "white",
   },
   // necessary for content to be below app bar
   toolbar: theme.mixins.toolbar,
@@ -53,6 +60,10 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing(3),
+  },
+  selectedTab: {
+    borderLeft: "4px solid rgb(245, 0, 87)",
+    backgroundColor: "#424242",
   },
 }));
 
@@ -67,20 +78,24 @@ export default function Home() {
     {
       title: "Dashboard",
       route: "/dashboard",
+      icon: <DashboardIcon />,
     },
     {
       title: "Users",
       route: "/users",
+      icon: <GroupIcon />,
     },
     {
       title: "Courses",
       route: "/courses",
+      icon: <MenuBookIcon />,
     },
   ];
   const links = [
     {
       title: "Dashboard",
       route: "/dashboard",
+      icon: <DashboardIcon />,
     },
     // {
     //   title: "Result",
@@ -88,7 +103,6 @@ export default function Home() {
     // },
   ];
   const [values, setValues] = useState({
-    title: "",
     view: "Dashboard",
   });
   const setView = (view) => {
@@ -152,26 +166,39 @@ export default function Home() {
           display="flex"
           alignItems="center"
           justifyContent="center"
-          style={{ height: "64px" }}
+          style={{
+            height: "64px",
+            color: "#f50057",
+            fontSize: "32px",
+            fontWeight: "bold",
+            padding: "16px",
+          }}
         >
-          <h1>Logo.</h1>
+          <GroupWorkIcon fontSize="large" style={{ marginRight: "8px" }} /> SFS
         </Box>
 
         <div className={classes.toolbar} />
         {role == "admin" && (
           <List style={{ background: "" }}>
             {adminLinks.map((element, index) => (
-              <ListItem button key={index}>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+              <ListItem
+                style={{
+                  borderBottom: "1px solid rgba(0, 0, 0, 0.12)",
+                  padding: "18px",
+                }}
+                className={
+                  element.title == values.view ? classes.selectedTab : ""
+                }
+                button
+                onClick={() => {
+                  setView(element.title);
+                }}
+                key={index}
+              >
+                <ListItemIcon style={{ color: "white" }}>
+                  {element.icon}
                 </ListItemIcon>
-                <ListItemText
-                  onClick={() => {
-                    setView(element.title);
-                  }}
-                  to="${element.route}"
-                  primary={element.title}
-                />
+                <ListItemText to="${element.route}" primary={element.title} />
               </ListItem>
             ))}
           </List>

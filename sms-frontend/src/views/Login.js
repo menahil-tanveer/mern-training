@@ -240,12 +240,15 @@ const Login = (props) => {
         </div>
       )} */}
         </CardContent>
-        <CardActions>
+        <CardActions style={{ display: "flex", flexDirection: "column" }}>
+          <p style={{ fontSize: "12px" }}>
+            Don't have an account? <Link to="/sign-up">Sign Up</Link>
+          </p>
+
           <Box
             display="flex"
             justifyContent="center"
             alignItems="center"
-            className="p-2"
             style={{ width: "100%", fontSize: "10px", color: "grey" }}
           >
             Copyright{" "}
