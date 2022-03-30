@@ -4,7 +4,7 @@ School Management System using React JS and material ui
 
 ## Description
 
-This project provides an information system to manage school related data and
+This project provides a basic mdodel of an information system that manages school related data and
 transactions.
 
 ## Available Scripts
