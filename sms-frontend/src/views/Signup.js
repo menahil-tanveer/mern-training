@@ -134,9 +134,6 @@ export default function SignupForm(props) {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
-  useEffect(() => {
-    document.title = "Sign Up";
-  });
   const submit = (event) => {
     event.preventDefault();
     const { id, fullName, email, password } = values;

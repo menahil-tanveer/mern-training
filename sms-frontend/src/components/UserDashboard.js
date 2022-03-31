@@ -133,8 +133,8 @@ const UserDashboard = () => {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell style={{ textAlign: "left" }} colSpan={6}>
-                    <p>No Courses Registered</p>
+                  <TableCell style={{ textAlign: "center" }} colSpan={6}>
+                    <p>No Registered Courses</p>
                   </TableCell>
                 </TableRow>
               )}

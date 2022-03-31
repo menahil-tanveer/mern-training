@@ -226,7 +226,9 @@ export default function Home() {
           role == "student" || role == "teacher" ? (
             <UserDashboard />
           ) : (
-            "admin dashboard"
+            <Typography variant="h5" gutterBottom component="div">
+              Admin Dashboard
+            </Typography>
           )
         ) : values.view == "Users" && role == "admin" ? (
           <Users />
