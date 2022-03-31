@@ -73,9 +73,10 @@ const Users = () => {
         component={Paper}
       >
         <Table
-          sx={{ minWidth: 850, height: "calc(100vh - 240px)" }}
+          sx={{ minWidth: 950, height: "calc(100vh - 240px)" }}
           size="small"
           aria-label="a dense table"
+          style={{ width: "calc(100vw - 300px)" }}
         >
           <TableHead className={classes.tableHeader}>
             <TableRow>
