@@ -5,6 +5,7 @@ const Joi = require("joi");
  * @param next
  * @description This method is responsible for validating course input data
  */
+
 function validateCourse(req, res, next) {
   const { courseId, courseName, creditHours } = req.body;
   let payload = {
